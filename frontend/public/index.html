@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors Game</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<div class="centered-text">
+  <h1>Rock Paper Scissors</h1>
+</div>
+
+<div class="container">
+  <div class="column">
+    <h2>You choose :</h2>
+    <div class="buttons">
+      <button class="rock" type="button" onclick="play('rock')">
+        <img src="rock.png" alt="Rock" width="100" height="100">
+      </button>
+      <button class="paper" type="button" onclick="play('paper')">
+        <img src="paper.png" alt="Paper" width="100" height="100">
+      </button>
+      <button class="scissors hover" type="button" onclick="play('scissors')">
+        <img src="scissors.png" alt="Scissors" width="100" height="100">
+      </button>
+    </div>
+  </div>
+
+  <div class="column">
+    <h2>Your opponent choose :</h2>
+    <div id="opponentChoice"></div>
+  </div>
+</div>
+
+<div class="result-text">
+  <p id="resultMessage"></p>
+</div>
+
+<button class="draw-card-btn" onclick="drawCard()">Draw Card</button>
+<div class="draw-count">2/2</div>
+
+<script>
+  let drawCount = 2; // Initial draw count
+
+  function drawCard() {
+    if (drawCount > 0) {
+      drawCount--;
+      document.querySelector('.draw-count').textContent = `${drawCount}/2`;
+      // Add your logic for drawing a card here
+    }
+  }
+
+  function play(userChoice) {
+    const choices = ['rock', 'paper', 'scissors'];
+    const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+    let result = '';
+
+    if (userChoice === computerChoice) {
+      result = 'It\'s a tie!';
+    } else if (
+      (userChoice === 'rock' && computerChoice === 'scissors') ||
+      (userChoice === 'paper' && computerChoice === 'rock') ||
+      (userChoice === 'scissors' && computerChoice === 'paper')
+    ) {
+      result = 'You win!';
+    } else {
+      result = 'You lose!';
+    }
+
+    // Display the image of what the computer chose
+    const computerChoiceImage = document.createElement('img');
+    computerChoiceImage.src = `${computerChoice}.png`; // Assuming you have images named rock.png, paper.png, and scissors.png
+    computerChoiceImage.alt = computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1);
+    computerChoiceImage.width = 100;
+    computerChoiceImage.height = 100;
+
+    // Clear previous content
+    document.getElementById('opponentChoice').innerHTML = '';
+
+    // Append the image to the opponentChoice div
+    document.getElementById('opponentChoice').appendChild(computerChoiceImage);
+
+    // Update the result text
+    document.getElementById('resultMessage').textContent = result;
+  }
+</script>
+</body>
+</html>
