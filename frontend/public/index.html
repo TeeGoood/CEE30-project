@@ -37,54 +37,24 @@
   <p id="resultMessage"></p>
 </div>
 
-<button class="draw-card-btn" onclick="drawCard()">Draw Card</button>
+<!-- Card Display -->
+<img src="ageheart.png" alt="Card" class="card-image">
+
+
+
+<!-- Draw Card Button -->
+<button class="draw-card-btn" onclick="drawCard()">
+  <img src="carddraw.png" alt="Draw Card">
+</button>
 <div class="draw-count">2/2</div>
 
-<script>
-  let drawCount = 2; // Initial draw count
+<!-- Score Display -->
+<div class="score" id="score">
+  <span id="playerScore">Player: 0</span>
+  <span id="opponentScore">Opponent: 0</span>
+</div>
 
-  function drawCard() {
-    if (drawCount > 0) {
-      drawCount--;
-      document.querySelector('.draw-count').textContent = `${drawCount}/2`;
-      // Add your logic for drawing a card here
-    }
-  }
+<script src="script.js"></script>
 
-  function play(userChoice) {
-    const choices = ['rock', 'paper', 'scissors'];
-    const computerChoice = choices[Math.floor(Math.random() * choices.length)];
-
-    let result = '';
-
-    if (userChoice === computerChoice) {
-      result = 'It\'s a tie!';
-    } else if (
-            (userChoice === 'rock' && computerChoice === 'scissors') ||
-            (userChoice === 'paper' && computerChoice === 'rock') ||
-            (userChoice === 'scissors' && computerChoice === 'paper')
-    ) {
-      result = 'You win!';
-    } else {
-      result = 'You lose!';
-    }
-
-    // Display the image of what the computer chose
-    const computerChoiceImage = document.createElement('img');
-    computerChoiceImage.src = `${computerChoice}.png`; // Assuming you have images named rock.png, paper.png, and scissors.png
-    computerChoiceImage.alt = computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1);
-    computerChoiceImage.width = 100;
-    computerChoiceImage.height = 100;
-
-    // Clear previous content
-    document.getElementById('opponentChoice').innerHTML = '';
-
-    // Append the image to the opponentChoice div
-    document.getElementById('opponentChoice').appendChild(computerChoiceImage);
-
-    // Update the result text
-    document.getElementById('resultMessage').textContent = result;
-  }
-</script>
 </body>
 </html>

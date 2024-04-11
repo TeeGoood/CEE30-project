@@ -356,15 +356,39 @@ h2 {
 .draw-card-btn {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  left: 20px;
   padding: 10px;
-  text-align: right;
+  text-align: left;
 }
 
 .draw-count {
   position: fixed;
   bottom: 50px;
-  right: 20px;
+  left: 20px;
   font-size: 18px;
-  text-align: right;
+  text-align: left;
+}
+
+.draw-card-btn {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.draw-card-btn img {
+  width: 125px; /* adjust the width and height according to your image size */
+  height: auto;
+}
+
+.card-image{
+  width: 125px; /* adjust the width and height according to your image size */
+  height: auto;
+  position: fixed;
+  bottom: 20px;
+  left: 175px;
+  padding: 10px;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
 }
