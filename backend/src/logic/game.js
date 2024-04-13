@@ -1,5 +1,5 @@
 import { Card } from "./card.js";
-import { gameStatesEnum } from "./enum.js";
+import { gameStatesEnum, resultsEnum } from "./enum.js";
 import { Player } from "./player.js";
 
 export class Game {
@@ -98,10 +98,8 @@ export class Game {
 
   endRound() {
     this.updateGameState("break");
-    this.#player1.setChoice(null);
-    this.#player1.setCard(null);
-    this.#player2.setChoice(null);
-    this.#player2.setCard(null);
+    this.#player1.resetRoundState();
+    this.#player2.resetRoundState();
     this.#round += 1;
 
     if (this.#player1.getScore() >= 3 || this.#player2.getScore() >= 3) {
@@ -180,6 +178,23 @@ export class Game {
   
   getResult() {
     return this.#result;
+  }
+
+  setResult(result){
+    if(!resultsEnum.includes(result)){
+      console.error("error: invalid result");
+      return;
+    }
+    this.#result = result;
+  }
+
+  getPlayerByNumber(number){
+    if(number == 1){
+      return this.#player1;
+    }
+    else{
+      return this.#player2;
+    }
   }
 
   getGameField() {

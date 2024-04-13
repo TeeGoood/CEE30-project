@@ -1,4 +1,4 @@
-import { cardsEnum } from "./enum";
+import { cardsEnum, choicesEnum } from "./enum";
 
 export class Card{
     #name;
@@ -27,11 +27,11 @@ export class Card{
     }
 
     preSkill(){
-        console.log('use pre skill');
+        choicesEnum[this.#name].preSkill(game, player);
     }
     
     postSkill(){
-        console.log('use post skill');
+        choicesEnum[this.#name].postSkill(game, player);
     }
 
     getCardState(){
