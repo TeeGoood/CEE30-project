@@ -68,7 +68,7 @@ export class Player {
       choice: this.#choice,
       score: this.#score,
       number: this.#number,
-      card: this.#card,
+      card: this.#card.getCardState(),
       quota: this.#quota,
       availableChoices: this.#availableChoices,
     };
