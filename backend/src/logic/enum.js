@@ -1,8 +1,9 @@
-export const gameStateEnum = [
-  "waiting",
-  "playing",
+export const gameStatesEnum = [
+  "waiting_player",
   "break",
-  "round_end",
-  "end",
+  "card_select",
+  "choice_select",
+  "game_end",
 ];
 export const choicesEnum = ["rock", "paper", "scissors"];
+export const resultsEnum = ['player1', 'player2', 'draw'];

@@ -1,6 +1,6 @@
 import { Game } from "./game.js";
 
-console.log("test: create game");
+/* console.log("test: create game");
 const game = new Game();
 console.log(game.getGameField());
 console.log();
@@ -40,7 +40,7 @@ game.endGame();
 console.log(game.getGameField());
 console.log();
 
-console.log("test: end game when break");
+console.log("test:  endgame when break");
 game.setPlayerChoice("1", "scissors");
 game.setPlayerChoice("2", "rock");
 game.resumeGame();
@@ -49,4 +49,22 @@ game.setPlayerChoice("2", "rock");
 //game.startNewRound();
 game.endGame();
 console.log(game.getGameField());
-console.log();
+console.log(); */
+
+//create game
+const game = new Game();
+game.createPlayer("1");
+game.createPlayer("2");
+game.playerDrawCard("1", false, false);
+game.setPlayerChoice("1", "rock");
+game.setPlayerChoice("2", "scissors");
+
+game.playerDrawCard("2", false, false);
+game.setPlayerChoice("1", "rock");
+game.setPlayerChoice("2", "scissors");
+
+game.playerDrawCard("1", false, false);
+game.setPlayerChoice("1", "rock");
+game.setPlayerChoice("2", "scissors");
+
+console.log(game.getGameField());

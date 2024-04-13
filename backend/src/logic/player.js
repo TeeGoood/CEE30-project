@@ -4,13 +4,24 @@ export class Player {
   #id;
   #choice;
   #score;
-  #point;
+  #number;
+  #card = null;
+  #quota;
 
-  constructor(id) {
+  constructor(id, number) {
     this.#id = id;
+    this.#number = number;
     this.#choice = null;
     this.#score = 0;
-    this.#point = 0;
+    this.#quota = 2;
+  }
+
+  getQuota(){
+    return this.#quota;
+  }
+
+  setQuota(quota){
+    this.#quota = quota; 
   }
 
   getChoice() {
@@ -38,21 +49,16 @@ export class Player {
     this.#score = score;
   }
 
-  getPoint() {
-    return this.#point;
+  getNumber(){
+    return this.#number;
   }
 
-  setPoint(point) {
-    this.#point = point;
+  getCard(){
+    return this.#card;
   }
 
-  resetChoice() {
-    this.setChoice(null);
-  }
-
-  resetRoundStates() {
-    this.setChoice(null);
-    this.#score = 0;
+  setCard(card){
+    this.#card = card; 
   }
 
   getPlayerStates() {
@@ -60,7 +66,9 @@ export class Player {
       id: this.#id,
       choice: this.#choice,
       score: this.#score,
-      point: this.#point,
+      number: this.#number,
+      card: this.#card,
+      quota: this.#quota,
     };
   }
 }
