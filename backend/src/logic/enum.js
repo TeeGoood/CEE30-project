@@ -18,7 +18,7 @@ export const cardsEnum = {
       const number = player.getNumber() == 1 ? 2 : 1;
       opponent = game.getPlayerByNumber(number);
       opponent.setAvailableChoices(
-        choicesEnum.filter((choice) => choice != "paper")
+        choicesEnum.filter((choice) => choice == "paper")
       );
     },
     postSkill: function (game, player) {
@@ -32,7 +32,7 @@ export const cardsEnum = {
       const number = player.getNumber() == 1 ? 2 : 1;
       opponent = game.getPlayerByNumber(number);
       opponent.setAvailableChoices(
-        choicesEnum.filter((choice) => choice != "rock")
+        choicesEnum.filter((choice) => choice == "rock")
       );
     },
     postSkill: function (game, player) {
@@ -46,7 +46,7 @@ export const cardsEnum = {
       const number = player.getNumber() == 1 ? 2 : 1;
       opponent = game.getPlayerByNumber(number);
       opponent.setAvailableChoices(
-        choicesEnum.filter((choice) => choice != "scissors")
+        choicesEnum.filter((choice) => choice == "scissors")
       );
     },
     postSkill: function (game, player) {
@@ -89,7 +89,7 @@ export const cardsEnum = {
       checkWinner(game);
       if (player.getScore() > prescore_player) {
         player.setScore(player.getScore() + 1);
-      } else (opponent.getScore() > prescore_oppo) {
+      } else if (opponent.getScore() > prescore_oppo) {
         opponent.setScore(opponent.getScore() + 1);
       }
     }
@@ -142,4 +142,80 @@ export const cardsEnum = {
       }
     }
   },
+
+  Late_Game: {
+    description: "ลดแต้มผู้เล่นทั้ง 2 ฝั่ง ฝั่งละ 1 แต้ม",
+    preSkill: function(game,player) {
+
+    },
+    postSkill: function(game,player) {
+      const player1 = game.getPlayerByNumber(1);
+      const player2 = game.getPlayerByNumber(2);
+      checkWinner(game)
+      player1.setScore(player1.getScore() - 1);
+      player2.setScore(player2.getScore() - 1);
+    }
+  },
+
+    Escalating_The_Loss: {
+      description: "ผู้เล่นที่แพ้จะโดนหัก 1 แต้ม",
+      preSkill: function(game,player) {
+
+      },
+      postSkill: function(game,player) {
+        const number = player.getNumber() == 1 ? 2 : 1;
+        opponent = game.getPlayerByNumber(number)
+        prescore_oppo = opponent.getScore();
+        prescore_player = player.getScore();
+        checkWinner(game);
+        if (opponent.getScore() > prescore_oppo) {
+          player.setScore(player.getScore() -1);
+        } else if (player.getScore() > prescore_player) {
+          opponent.setScore(opponent.getScore() -1);
+        }
+      }
+    },
+
+    Even_Odds: {
+      description: "สามารถใช้เพื่อลดตัวเลือกของฝั่งตรงข้ามจาก 3 เป้าเป็น 2 เป้า",
+      preSkill: function(game,player) {
+        const ch = ["rock", "scissors", "paper"];
+        const randomInt = Math.floor(Math.random() * 3); // 0 1 2
+        const number = player.getNumber() == 1 ? 2 : 1;
+        opponent = game.getPlayerByNumber(number);
+        opponent.setAvailableChoices(
+          choicesEnum.filter((choice) => choice != ch[randomInt])
+        );
+      },
+      postSkill: function(game,player) {
+        checkWinner(game);
+      }
+    },
+
+    Ground_Zero: {
+      description: "รีเซตคะแนนทั้ง 2 ฝั่งเป็น 0 แต้ม",
+      preSkill: function(game,player) {
+        const player1 = game.getPlayerByNumber(1);
+        const player2 = game.getPlayerByNumber(2);
+        player1.setScore(0);
+        player2.setScore(0);
+      },
+      postSkill: function(game,player) {
+        checkWinner(game);
+      }
+    },
+
+    Score_Swap: {
+      description: "สลับแต้มของผู้เล่น",
+      preSkill: function(game,player) {
+        const player1 = game.getPlayerByNumber(1);
+        const player2 = game.getPlayerByNumber(2);
+        const tmp = player1.getScore();
+        player1.setScore(player2.getScore());
+        player2.setScore(tmp);
+      },
+      postSkill: function(game,player) {
+        checkWinner(game);
+      }
+    }
 }
