@@ -7,6 +7,7 @@ export class Player {
   #number;
   #card = null;
   #quota;
+  #availableChoices = choicesEnum;
 
   constructor(id, number) {
     this.#id = id;
@@ -69,6 +70,7 @@ export class Player {
       number: this.#number,
       card: this.#card,
       quota: this.#quota,
+      availableChoices: this.#availableChoices,
     };
   }
 }

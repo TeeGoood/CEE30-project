@@ -1,6 +1,7 @@
 export class Card{
     #game;
     #isUse;
+    #isForce = false;
 
     constructor(game){
         this.#game = game;
@@ -12,6 +13,10 @@ export class Card{
 
     setIsUse(isUse){
         this.#isUse = isUse
+    }
+
+    getIsForce(){
+        return this.#isForce;
     }
 
     preSkill(){

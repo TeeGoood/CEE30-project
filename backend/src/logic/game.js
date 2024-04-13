@@ -1,4 +1,4 @@
-import { Card } from "./card.js";
+import { Card } from "./cards/card.js";
 import { gameStatesEnum } from "./enum.js";
 import { Player } from "./player.js";
 
@@ -151,7 +151,7 @@ export class Game {
     player.setQuota(player.getQuota() - 1);
 
     const playerCard = player.getCard();
-    playerCard.setIsUse(isUse);
+    playerCard.setIsUse(isUse || playerCard.getIsForce());
 
     if(playerCard.getIsUse()){
       player.getCard().preSkill();
