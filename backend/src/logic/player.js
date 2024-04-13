@@ -17,6 +17,12 @@ export class Player {
     this.#quota = 2;
   }
 
+  resetRoundState(){
+    this.#choice = null;
+    this.#card = null;
+    this.#availableChoices = choicesEnum;
+  }
+
   getQuota(){
     return this.#quota;
   }
@@ -36,6 +42,14 @@ export class Player {
       console.log("error: not in definded choices");
       return;
     }
+  }
+
+  setAvailableChoices(choices){
+    this.#availableChoices = choices;
+  }
+
+  getNumber(){
+    return this.#number;
   }
 
   getId() {
@@ -68,7 +82,7 @@ export class Player {
       choice: this.#choice,
       score: this.#score,
       number: this.#number,
-      card: this.#card,
+      card: this.#card.getCardState(),
       quota: this.#quota,
       availableChoices: this.#availableChoices,
     };
