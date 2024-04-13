@@ -1,4 +1,4 @@
-import { Card } from "./cards/card.js";
+import { Card } from "./card.js";
 import { gameStatesEnum } from "./enum.js";
 import { Player } from "./player.js";
 
@@ -8,7 +8,7 @@ export class Game {
   #player2;
   #result;
   #round;
-  #cardDec = [new Card(), new Card(), new Card()]; //TODO
+  #cardDec = [new Card(this, "Paper_Loss")]; //TODO
 
   constructor(gameStatus = {}) {
     this.#gameState = gameStatus.gameState || "waiting";
