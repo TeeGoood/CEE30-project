@@ -62,6 +62,9 @@ export class Player {
 
   setScore(score) {
     this.#score = score;
+    if(this.#score < 0){
+      this.#score = 0;
+    }
   }
 
   getNumber(){
@@ -76,13 +79,17 @@ export class Player {
     this.#card = card; 
   }
 
+  getAvailableChoice(){
+    return this.#availableChoices;
+  }
+
   getPlayerStates() {
     return {
       id: this.#id,
       choice: this.#choice,
       score: this.#score,
       number: this.#number,
-      card: this.#card.getCardState(),
+      card: this.#card?.getCardState(),
       quota: this.#quota,
       availableChoices: this.#availableChoices,
     };
