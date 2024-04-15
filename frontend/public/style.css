@@ -257,6 +257,80 @@ h1, h2 {
   color: #333;
 }
 
+.waiting-text {
+  font-size: 36px;
+  font-weight: bold;
+  color: #4CAF50; /* Green */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.start-button {
+  /* display: flex; */
+  justify-content: center;
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.start-button:hover {
+  background-color: #45a049;
+  text-align: center;
+}
+
+.score-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-family: 'Arial Black', Gadget, sans-serif;
+  text-align: right;
+}
+
+.score-box-container {
+  background-color: #ffd700;
+  border: 5px solid #333;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+}
+
+.score-box {
+  background-color: #fff;
+  border: 3px solid #333;
+  border-radius: 10px;
+  margin-top: 15px;
+  width: 120px;
+  height: 60px;
+}
+
+.score-box {
+  margin: 0 auto; 
+  display: block;
+  font-family: 'Arial', sans-serif;
+  font-size: 28px;
+  line-height: 60px;
+  color: #333;
+  text-align: center;
+}
+
+.player-name,
+.opponent-name {
+  font-size: 30px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 #game-area {
   text-align: center;
   margin: 50px auto;
@@ -272,6 +346,28 @@ button {
   font-size: 16px;
   margin: 10px;
   cursor: pointer;
+}
+
+#result-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust as needed */
+}
+
+#resultMessage,
+#timer {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* 3D effect */
+}
+
+#timer {
+  font-size: 18px; /* Adjust as needed */
 }
 
 #scoreboard {
@@ -293,7 +389,16 @@ button {
 }
 
 .centered-text {
+  margin-top: 50px;
+  font-family: Arial, sans-serif;
+  background-color: #f3f3f3;
   text-align: center;
+}
+.centered-text h1 {
+  font-size: 4em;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000; /* 3D text-shadow */
 }
 
 button {

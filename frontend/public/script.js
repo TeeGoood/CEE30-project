@@ -2,6 +2,15 @@ let drawCount = 2; // Initial draw count
 let playerScore = 0;
 let opponentScore = 0;
 
+function startGame() {
+    document.querySelector('.score-container').style.display = 'block';
+    document.querySelector('.card-image').style.display = 'block';
+    document.querySelector('.draw-card-btn').style.display = 'block';
+    document.querySelector('.container').style.display = 'block';
+    document.querySelector('.waiting-text').style.display = 'none';
+    document.querySelector('.start-button').style.display = 'none';
+}
+
 function drawCard() {
     if (drawCount > 0) {
         drawCount--;
@@ -20,19 +29,24 @@ function play(userChoice) {
     const choices = ['rock', 'paper', 'scissors'];
     const computerChoice = choices[Math.floor(Math.random() * choices.length)];
 
-    let result = '';
+    // button.disabled = true;
+    // //delay the click for 3 secs
+    // setTimeout(function() {
+    //     button.disabled = false;
+    // }, 3000);
 
+    let result = '';
     if (userChoice === computerChoice) {
-        result = 'It\'s a tie!';
+        showResultMessage('It\'s a tie!');
     } else if (
         (userChoice === 'rock' && computerChoice === 'scissors') ||
         (userChoice === 'paper' && computerChoice === 'rock') ||
         (userChoice === 'scissors' && computerChoice === 'paper')
     ) {
-        result = 'You win!';
+        showResultMessage('You win!');
         playerScore++;
     } else {
-        result = 'You lose!';
+        showResultMessage('You lose!');
         opponentScore++;
     }
 
@@ -53,6 +67,21 @@ function play(userChoice) {
     document.getElementById('resultMessage').textContent = result;
 
     // Update player and opponent scores
-    document.getElementById('playerScore').textContent = `Player: ${playerScore}`;
-    document.getElementById('opponentScore').textContent = `Opponent: ${opponentScore}`;
+    document.getElementById('playerScore').textContent = `${playerScore}`;
+    document.getElementById('opponentScore').textContent = `${opponentScore}`;
 }
+
+function showResultMessage(message) { 
+    //show popup for 3 secs
+    var count = 3;
+    var countdown = setInterval(function() {
+        document.getElementById("resultMessage").textContent = message;
+        document.getElementById("result-text").style.display = "block";
+        document.getElementById("timer").textContent = "Next turn in " + count + " seconds";
+        count--;
+        if (count === -1) {
+            clearInterval(countdown);
+            document.getElementById("result-text").style.display = "none"; //close popup after 3 secs
+        }
+    }, 1000);
+  }

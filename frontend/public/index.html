@@ -8,10 +8,13 @@
 </head>
 <body>
 <div class="centered-text">
-  <h1>Rock Paper Scissors</h1>
+  <h1>Rock Paper Scissors !</h1>
 </div>
 
-<div class="container">
+<div class="waiting-text">Waiting for other player to join...</div>
+<button class="start-button" onclick="startGame()">Start Game▶️</button>
+
+<div class="container" style="display:none">
   <div class="column">
     <h2>You choose :</h2>
     <div class="buttons">
@@ -26,32 +29,40 @@
       </button>
     </div>
   </div>
-
+  
   <div class="column">
     <h2>Your opponent choose :</h2>
     <div id="opponentChoice"></div>
   </div>
 </div>
 
-<div class="result-text">
+<div id="result-text">
   <p id="resultMessage"></p>
+  <p id="timer"></p>
 </div>
 
+
 <!-- Card Display -->
-<img src="ageheart.png" alt="Card" class="card-image">
-
-
+<img src="ageheart.png" alt="Card" class="card-image" style="display:none">
 
 <!-- Draw Card Button -->
-<button class="draw-card-btn" onclick="drawCard()">
+<button class="draw-card-btn" onclick="drawCard()" style="display:none">
   <img src="carddraw.png" alt="Draw Card">
 </button>
-<div class="draw-count">2/2</div>
+<!-- <div class="draw-count">2/2</div> -->
 
 <!-- Score Display -->
-<div class="score" id="score">
-  <span id="playerScore">Player: 0</span>
-  <span id="opponentScore">Opponent: 0</span>
+<div class="score-container" style="display:none">
+  <div class="score-box-container">
+      <div class="player-name">Player</div>
+      <div class="score-box">
+          <span id="playerScore">0</span>
+      </div>
+      <div class="opponent-name">Opponent</div>
+      <div class="score-box">
+          <span id="opponentScore">0</span>
+      </div>
+  </div>
 </div>
 
 <script src="script.js"></script>
