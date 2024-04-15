@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+        }
+        #cardDeck {
+            width: 200px;
+            height: 300px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            margin: auto;
+            background-image: url('card_back.png'); /* Default card deck image */
+            background-size: cover;
+        }
+        #cardDescription {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        #cancelButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Card Selection</h1>
+<button id="cancelButton" onclick="cancelSelection()">Cancel</button>
+<div id="cardDeck" onclick="drawCard()"></div>
+<div id="cardDescription"></div>
+<div class="button-container" id="buttonContainer" style="display: none;">
+    <button class="button" onclick="useCard()">Use</button>
+    <button class="button" onclick="discardCard()">Discard</button>
+</div>
+
+<script>
+    // Array of card descriptions
+    var cardDescriptions = [
+        "Ace of Spades: The highest card in the deck.",
+        // Add more card descriptions as needed
+    ];
+
+    function drawCard() {
+        // Change the card deck image
+        document.getElementById("cardDeck").style.backgroundImage = "url('img/ageheart.png')";
+
+        // Randomly select a card description
+        var randomIndex = Math.floor(Math.random() * cardDescriptions.length);
+        var description = cardDescriptions[randomIndex];
+
+        // Display the selected card description
+        document.getElementById("cardDescription").innerText = description;
+
+        // Show the button container
+        document.getElementById("buttonContainer").style.display = "block";
+    }
+
+    function useCard() {
+        // Add functionality for using the card here
+        alert("Card used!");
+        window.location.href = "choice_select.html";
+        resetCard();
+    }
+
+    function discardCard() {
+        // Add functionality for discarding the card here
+        alert("Card discarded!");
+        window.location.href = "choice_select.html";
+        resetCard();
+    }
+
+    function resetCard() {
+        // Reset card deck image and description
+        document.getElementById("cardDeck").style.backgroundImage = "url('card_back.png')";
+        document.getElementById("cardDescription").innerText = "";
+        // Hide the button container
+        document.getElementById("buttonContainer").style.display = "none";
+    }
+
+    function cancelSelection() {
+        // Redirect to choice_select.html
+        window.location.href = "choice_select.html";
+    }
+</script>
+</body>
+</html>

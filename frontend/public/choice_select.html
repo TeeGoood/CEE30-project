@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors - Player's Choice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        .choice-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 0 10px;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+        }
+        .choice-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+<h1>Choose Your Move</h1>
+<div class="buttons">
+    <button class="rock" type="button" onclick="selectChoice('rock')">
+        <img src="img/rock.png" alt="Rock" width="100" height="100">
+    </button>
+    <button class="paper" type="button" onclick="selectChoice('paper')">
+        <img src="img/paper.png" alt="Paper" width="100" height="100">
+    </button>
+    <button class="scissors hover" type="button" onclick="selectChoice('scissors')">
+        <img src="img/scissors.png" alt="Scissors" width="100" height="100">
+    </button>
+</div>
+
+<script>
+    function selectChoice(choice) {
+        // Send the selected choice to the server or process it locally
+        alert("You selected: " + choice);
+        // You can replace the alert with code to send the choice to the server or process it further
+    }
+</script>
+</body>
+</html>
