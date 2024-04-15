@@ -13,6 +13,7 @@ export const resultsEnum = ["player1", "player2", "draw"];
 export const cardsEnum = {
   Paper_Loss: {
     description: "สามารถใช้เพื่อบังคับเปลี่ยนเป้าที่ฝั่งตรงข้ามออกเป็น'กระดาษ'",
+    isForce: false,
     preSkill: (game, player) => {
       const number = player.getNumber() == 1 ? 2 : 1;
       const opponent = game.getPlayerByNumber(number);
@@ -27,6 +28,7 @@ export const cardsEnum = {
 
   Rock_Out: {
     description: "สามารถใช้เพื่อบังคับเปลี่ยนเป้าที่ฝั่งตรงข้ามออกเป็น'ค้อน'",
+    isForce: false,
     preSkill: (game, player) => {
       const number = player.getNumber() == 1 ? 2 : 1;
       const opponent = game.getPlayerByNumber(number);
@@ -41,6 +43,7 @@ export const cardsEnum = {
 
   Hopecutting_Scissors: {
     description: "สามารถใช้เพื่อบังคับเปลี่ยนเป้าที่ฝั่งตรงข้ามออกเป็น'กรรไกร'",
+    isForce: false,
     preSkill: (game, player) => {
       const number = player.getNumber() == 1 ? 2 : 1;
       const opponent = game.getPlayerByNumber(number);
@@ -55,6 +58,7 @@ export const cardsEnum = {
 
   OneMoreTime: {
     description: "สามารถใช้เพื่อให้ฝั่งตรงข้ามไม่ได้แต้ม หากเขาเป่าชนะในตานี้",
+    isForce: false,
     preSkill: (game, player) => {},
     postSkill: (game, player) => {
       const number = player.getNumber() == 1 ? 2 : 1;
@@ -75,6 +79,7 @@ export const cardsEnum = {
 
   Makeit_Or_Breakit: {
     description: "ผู้ชนะในตานี้จะได้รับ 2 แต้ม",
+    isForce: false,
     preSkill: (game, player) => {},
     postSkill: (game, player) => {
       const number = player.getNumber() == 1 ? 2 : 1;
@@ -93,6 +98,7 @@ export const cardsEnum = {
   Rock_You: {
     description:
       "สามารถใช้เพื่อให้ฝั่งตรงข้ามไม่ได้คะแนน หากเขาเป่าชนะด้วย'ค้อน'",
+    isForce: false,
     preSkill: (game, player) => {},
     postSkill: (game, player) => {
       const number = player.getNumber() == 1 ? 2 : 1;
@@ -111,6 +117,7 @@ export const cardsEnum = {
   Paper_Cut: {
     description:
       "สามารถใช้เพื่อให้ฝั่งตรงข้ามไม่ได้คะแนน หากเขาเป่าชนะด้วย'กระดาษ'",
+    isForce: false,
     preSkill: (game, player) => {},
     postSkill: (game, player) => {
       const number = player.getNumber() == 1 ? 2 : 1;
@@ -129,6 +136,7 @@ export const cardsEnum = {
   Snipping_Victory: {
     description:
       "สามารถใช้เพื่อให้ฝั่งตรงข้ามไม่ได้คะแนน หากเขาเป่าชนะด้วย'กรรไกร'",
+    isForce: false,
     preSkill: (game, player) => {},
     postSkill: (game, player) => {
       const number = player.getNumber() == 1 ? 2 : 1;
@@ -146,6 +154,7 @@ export const cardsEnum = {
 
   Late_Game: {
     description: "ลดแต้มผู้เล่นทั้ง 2 ฝั่ง ฝั่งละ 1 แต้ม",
+    isForce: true,
     preSkill: (game, player) => {},
     postSkill: (game, player) => {
       const player1 = game.getPlayerByNumber(1);
@@ -158,6 +167,7 @@ export const cardsEnum = {
 
   Escalating_The_Loss: {
     description: "ผู้เล่นที่แพ้จะโดนหัก 1 แต้ม",
+    isForce: false,
     preSkill: (game, player) => {},
     postSkill: (game, player) => {
       const number = player.getNumber() == 1 ? 2 : 1;
@@ -175,6 +185,7 @@ export const cardsEnum = {
 
   Even_Odds: {
     description: "สามารถใช้เพื่อลดตัวเลือกของฝั่งตรงข้ามจาก 3 เป้าเป็น 2 เป้า",
+    isForce: false,
     preSkill: (game, player) => {
       const ch = ["rock", "scissors", "paper"];
       const randomInt = Math.floor(Math.random() * 3); // 0 1 2
@@ -191,6 +202,7 @@ export const cardsEnum = {
 
   Ground_Zero: {
     description: "รีเซตคะแนนทั้ง 2 ฝั่งเป็น 0 แต้ม",
+    isForce: true,
     preSkill: (game, player) => {
       const player1 = game.getPlayerByNumber(1);
       const player2 = game.getPlayerByNumber(2);
@@ -204,6 +216,7 @@ export const cardsEnum = {
 
   Score_Swap: {
     description: "สลับแต้มของผู้เล่น",
+    isForce: true,
     preSkill: (game, player) => {
       const player1 = game.getPlayerByNumber(1);
       const player2 = game.getPlayerByNumber(2);

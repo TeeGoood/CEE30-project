@@ -2,33 +2,63 @@ import { choicesEnum } from "./enum.js";
 
 export class Player {
   #id;
-  #choice;
-  #score;
   #number;
-  #card = null;
   #quota;
-  #availableChoices = choicesEnum;
+  #score;
+  #choice;
+  #card;
+  #availableChoices;
 
-  constructor(id, number) {
-    this.#id = id;
-    this.#number = number;
-    this.#choice = null;
-    this.#score = 0;
-    this.#quota = 2;
+  constructor(data = {}) {
+    this.#id = data.id || id;
+    this.#number = data.number || number;
+    this.#score = data.score || 0;
+    this.#quota = data.quota || 2;
+    this.#choice = data.choice || null;
+    this.#card = data.card || null;
+    this.#availableChoices = data.availableChoices || choicesEnum;
   }
 
-  resetRoundState(){
+  resetRoundState() {
     this.#choice = null;
     this.#card = null;
     this.#availableChoices = choicesEnum;
   }
 
-  getQuota(){
+  getId() {
+    return this.#id;
+  }
+
+  getNumber() {
+    return this.#number;
+  }
+
+  setNumber(number) {
+    if (number != 1 || number != 2) {
+      throw "invalid player number";
+    }
+  }
+
+  getQuota() {
     return this.#quota;
   }
 
-  setQuota(quota){
-    this.#quota = quota; 
+  setQuota(quota) {
+    this.#quota = quota;
+    if (this.#quota < 0) {
+      this.#quota = 0;
+    }
+  }
+
+  getScore() {
+    return this.#score;
+  }
+
+  setScore(score) {
+    this.#score = score;
+    if (this.#score < 0) {
+      this.#score = 0;
+    }
   }
 
   getChoice() {
@@ -39,58 +69,34 @@ export class Player {
     if (choicesEnum.includes(choice) || choice === null) {
       this.#choice = choice;
     } else {
-      console.log("error: not in definded choices");
-      return;
+      throw "invalid choice";
     }
   }
 
-  setAvailableChoices(choices){
-    this.#availableChoices = choices;
-  }
-
-  getNumber(){
-    return this.#number;
-  }
-
-  getId() {
-    return this.#id;
-  }
-
-  getScore() {
-    return this.#score;
-  }
-
-  setScore(score) {
-    this.#score = score;
-    if(this.#score < 0){
-      this.#score = 0;
-    }
-  }
-
-  getNumber(){
-    return this.#number;
-  }
-
-  getCard(){
+  getCard() {
     return this.#card;
   }
 
-  setCard(card){
-    this.#card = card; 
+  setCard(card) {
+    this.#card = card;
   }
 
-  getAvailableChoice(){
+  getAvailableChoice() {
     return this.#availableChoices;
+  }
+
+  setAvailableChoices(choices) {
+    this.#availableChoices = choices;
   }
 
   getPlayerStates() {
     return {
       id: this.#id,
-      choice: this.#choice,
-      score: this.#score,
       number: this.#number,
-      card: this.#card?.getCardState(),
+      score: this.#score,
       quota: this.#quota,
+      choice: this.#choice,
+      card: this.#card?.getCardState(),
       availableChoices: this.#availableChoices,
     };
   }

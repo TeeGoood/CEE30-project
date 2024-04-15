@@ -9,16 +9,43 @@ export class Game {
   #result;
   #round;
   #cardDec = [
-    new Card(this, "Score_Swap"),
-    new Card(this, "Ground_Zero"),
-    new Card(this, "Even_Odds"),
-    new Card(this, "Escalating_The_Loss"),
-    new Card(this, "Rock_You"),
-    new Card(this, "Makeit_Or_Breakit"),
-    new Card(this, "OneMoreTime"),
-    new Card(this, "Paper_Loss"),
-    new Card(this, "Late_Game"),
-  ]; //TODO
+    new Card({
+      game: this,
+      name: "Score_Swap",
+    }),
+    new Card({
+      game: this,
+      name: "Ground_Zero",
+    }),
+    new Card({
+      game: this,
+      name: "Even_Odds",
+    }),
+    new Card({
+      game: this,
+      name: "Escalating_The_Loss",
+    }),
+    new Card({
+      game: this,
+      name: "Rock_You",
+    }),
+    new Card({
+      game: this,
+      name: "Makeit_Or_Breakit",
+    }),
+    new Card({
+      game: this,
+      name: "OneMoreTime",
+    }),
+    new Card({
+      game: this,
+      name: "Paper_Loss",
+    }),
+    new Card({
+      game: this,
+      name: "Late_Game",
+    }),
+  ];
 
   constructor(gameStatus = {}) {
     this.#gameState = gameStatus.gameState || "waiting";
@@ -39,8 +66,7 @@ export class Game {
     }
 
     if (!gameStatesEnum.includes(state)) {
-      console.log("error: invalid game state");
-      return;
+      throw "invalid game state";
     }
     this.#gameState = state;
   }
@@ -52,7 +78,7 @@ export class Game {
       this.#player2 = new Player(id, 2);
       this.updateGameState("card_select");
     } else {
-      console.log("error: players are full");
+      throw "game are full";
     }
   }
 
@@ -62,8 +88,7 @@ export class Game {
     } else if (this.#player2?.getId() == id) {
       return this.#player2;
     } else {
-      console.log(`error: cannot find player ${id}`);
-      return null;
+      throw `player ${id} is not in this game`;
     }
   }
 
@@ -76,19 +101,16 @@ export class Game {
     }
 
     if (this.#gameState != "choice_select") {
-      console.log("error: not in choice_select state");
-      return;
+      throw "cannot set choice, invalid game state";
     }
 
     if (player.getChoice()) {
-      console.log("error: player already have selected choice");
-      return;
+      throw `player ${id} have already selected choice`;
     }
 
     //set player choice
-    if(!player.getAvailableChoice().includes(choice)){
-      console.log('not available choice');
-      return;
+    if (!player.getAvailableChoice().includes(choice)) {
+      throw "not available choice";
     }
     player.setChoice(choice);
 
@@ -110,7 +132,11 @@ export class Game {
     this.stopGame();
   }
 
-  resumeGame(){
+  stopGame() {
+    this.updateGameState("break");
+  }
+
+  resumeGame() {
     if (this.#player1.getScore() >= 3 || this.#player2.getScore() >= 3) {
       this.endGame();
     } else {
@@ -118,23 +144,25 @@ export class Game {
     }
   }
 
-  stopGame() {
-    this.updateGameState("break");
-    //this.resumeGame();
-  }
-  
-  startNewRound(){
+  startNewRound() {
     if (this.#gameState != "break") {
-      console.log("error: game is in invalid game state");
-      return;
+      throw "cannot start new Round, invalid game state";
     }
-    
+
     this.#round += 1;
     this.#player1.resetRoundState();
     this.#player2.resetRoundState();
     this.#result = null;
 
     this.updateGameState("card_select");
+  }
+
+  endGame() {
+    if (this.#gameState != "break") {
+      throw "cannot end game, invalid game state";
+    }
+
+    this.updateGameState("game_end");
   }
 
   checkWinner(choice1, choice2) {
@@ -157,13 +185,11 @@ export class Game {
     const player = this.getPlayerById(id);
 
     if (player.getNumber() == 1 && this.#round % 2 == 0) {
-      console.error("error: not player1 round");
-      return;
+      throw "not player1 round";
     }
 
     if (player.getNumber() == 2 && this.#round % 2 != 0) {
-      console.error("error: not player2 round");
-      return;
+      throw "not player2 round";
     }
 
     this.#gameState = "choice_select";
@@ -186,22 +212,13 @@ export class Game {
     }
   }
 
-  endGame() {
-    if (this.#gameState != "break") {
-      console.log("error: cannot end game, invalid game state");
-    }
-
-    this.updateGameState("game_end");
-  }
-
   getResult() {
     return this.#result;
   }
 
   setResult(result) {
     if (!resultsEnum.includes(result)) {
-      console.error("error: invalid result");
-      return;
+      throw "invaild result";
     }
     this.#result = result;
   }

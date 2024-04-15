@@ -3,18 +3,40 @@ import { cardsEnum, choicesEnum } from "./enum.js";
 export class Card{
     #name;
     #description;
-    #game;
     #isUse;
-    #isForce = false;
+    #isForce;
+    #game;
     #player;
 
-    constructor(game, name){
-        this.#game = game;
-        if(name in cardsEnum){
-            //console.log(name);
-            this.#name = name;
-            this.#description = cardsEnum[name].description;
+    constructor(data = {}){
+        //required valid name and game object
+        if(!data.name){
+            throw("not given card\'s name");
         }
+
+        if(!data.game){
+            throw('not given card\'s game');
+        }
+        
+        if(!(data.name in cardsEnum)){
+            throw('invalid card name');
+        }
+        
+        this.#name = data.name;
+        this.#description = cardsEnum[data.name].description;
+        this.#isUse = data.isUse || false;
+        this.#isForce = cardsEnum[data.name].isForce;
+        this.#game = data.game;
+        this.#player = data.player || null;
+
+    }
+
+    preSkill(){
+        cardsEnum[this.#name].preSkill(this.#game, this.#player);
+    }
+    
+    postSkill(){
+        cardsEnum[this.#name].postSkill(this.#game, this.#player);
     }
 
     getIsUse(){
@@ -31,15 +53,6 @@ export class Card{
 
     setPlayer(player){
         this.#player = player;
-    }
-
-    preSkill(){
-        //console.log(cardsEnum[this.#name]);
-        cardsEnum[this.#name].preSkill(this.#game, this.#player);
-    }
-    
-    postSkill(){
-        cardsEnum[this.#name].postSkill(this.#game, this.#player);
     }
 
     getCardState(){
