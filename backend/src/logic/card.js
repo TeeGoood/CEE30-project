@@ -3,7 +3,6 @@ import { cardsEnum, choicesEnum } from "./enum.js";
 export class Card{
     #name;
     #description;
-    #isUse;
     #isForce;
     #game;
     #player;
@@ -24,7 +23,6 @@ export class Card{
         
         this.#name = data.name;
         this.#description = cardsEnum[data.name].description;
-        this.#isUse = data.isUse || false;
         this.#isForce = cardsEnum[data.name].isForce;
         this.#game = data.game;
         this.#player = data.player || null;
@@ -39,12 +37,8 @@ export class Card{
         cardsEnum[this.#name].postSkill(this.#game, this.#player);
     }
 
-    getIsUse(){
-        return this.#isUse;
-    }
-
-    setIsUse(isUse){
-        this.#isUse = isUse
+    getName(){
+        return this.#name;
     }
 
     getIsForce(){
@@ -55,12 +49,12 @@ export class Card{
         this.#player = player;
     }
 
-    getCardState(){
+    getStates(){
         return {
             name: this.#name,
             description: this.#description,
             isForce: this.#isForce,
-            isUse: this.#isUse
         }
     }
+
 }

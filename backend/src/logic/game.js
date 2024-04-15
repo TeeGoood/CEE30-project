@@ -55,6 +55,14 @@ export class Game {
     this.#round = gameStatus.round || 1;
   }
 
+  resetGameStates(){
+    this.#gameState = "waiting";
+    this.#player1 = null;
+    this.#player2 = null;
+    this.#result = null;
+    this.#round = 1;
+  }
+
   getGameStates() {
     return this.#gameState;
   }
@@ -71,11 +79,11 @@ export class Game {
     this.#gameState = state;
   }
 
-  createPlayer(id) {
+  createPlayer(data) {
     if (!this.#player1) {
-      this.#player1 = new Player(id, 1);
+      this.#player1 = new Player({...data, number: 1});
     } else if (!this.#player2) {
-      this.#player2 = new Player(id, 2);
+      this.#player2 = new Player({...data, number: 2});
       this.updateGameState("card_select");
     } else {
       throw "game are full";
@@ -124,7 +132,7 @@ export class Game {
     const card1 = this.#player1.getCard();
     const card2 = this.#player2.getCard();
     const card = card1 || card2;
-    if (card?.getIsUse()) {
+    if (card?.getIsForce() || card?.player.isUse()) {
       card.postSkill();
     } else {
       this.checkWinner(choice1, choice2);
@@ -199,16 +207,16 @@ export class Game {
     }
 
     const card = this.#cardDec[this.#cardDec.length - 1];
+    this.#cardDec.splice(this.#cardDec.length - 1, 1);
+    
     card.setPlayer(player);
+
     player.setCard(card);
     player.setQuota(player.getQuota() - 1);
-    this.#cardDec.splice(this.#cardDec.length - 1, 1);
+    player.setIsUse(isUse);
 
-    const playerCard = player.getCard();
-    playerCard.setIsUse(isUse || playerCard.getIsForce());
-
-    if (playerCard.getIsUse()) {
-      player.getCard().preSkill();
+    if (card.getIsForce() || player.getIsUse()) {
+      card.preSkill();
     }
   }
 
@@ -231,14 +239,25 @@ export class Game {
     }
   }
 
-  getGameField() {
+  getShowStates() {
     return {
       gameState: this.#gameState,
-      player1: this.#player1?.getPlayerStates(),
-      player2: this.#player2?.getPlayerStates(),
+      player1: this.#player1?.getShowStates(),
+      player2: this.#player2?.getShowStates(),
       result: this.#result,
       round: this.#round,
-      cardDec: this.#cardDec,
+      cardDec: this.#cardDec.map(card => card.getName()),
+    };
+  }
+
+  getDatabaseStates() {
+    return {
+      gameState: this.#gameState,
+      player1: this.#player1?.getId(),
+      player2: this.#player2?.getId(),
+      result: this.#result,
+      round: this.#round,
+      cardDec: this.#cardDec.map(card => card.getName()),
     };
   }
 }

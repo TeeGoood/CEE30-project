@@ -1,7 +1,7 @@
 import { checkWinner } from "./utilities.js";
 
 export const gameStatesEnum = [
-  "waiting_player",
+  "waiting",
   "break",
   "card_select",
   "choice_select",
