@@ -49,13 +49,13 @@ export class Game {
 
   constructor(gameStatus = {}) {
     this.#gameState = gameStatus.gameState || "waiting";
-    this.#player1 = gameStatus.player1 || null;
-    this.#player2 = gameStatus.player2 || null;
+    this.#player1 = null;
+    this.#player2 = null;
     this.#result = gameStatus.result || null;
     this.#round = gameStatus.round || 1;
   }
 
-  resetGameStates(){
+  resetGameStates() {
     this.#gameState = "waiting";
     this.#player1 = null;
     this.#player2 = null;
@@ -80,11 +80,17 @@ export class Game {
   }
 
   createPlayer(data) {
+    if(this.#gameState != "waiting"){
+      throw "not in waiting state";
+    }
+
     if (!this.#player1) {
-      this.#player1 = new Player({...data, number: 1});
+      this.#player1 = new Player({ ...data, number: 1, game: this });
+      return this.#player1;
     } else if (!this.#player2) {
-      this.#player2 = new Player({...data, number: 2});
+      this.#player2 = new Player({ ...data, number: 2, game: this });
       this.updateGameState("card_select");
+      return this.#player2;
     } else {
       throw "game are full";
     }
@@ -142,6 +148,7 @@ export class Game {
 
   stopGame() {
     this.updateGameState("break");
+    //this.resumeGame();
   }
 
   resumeGame() {
@@ -192,6 +199,10 @@ export class Game {
   playerDrawCard(id, isDraw, isUse) {
     const player = this.getPlayerById(id);
 
+    if(this.#gameState != "card_select"){
+      throw "not in card_select state";
+    }
+
     if (player.getNumber() == 1 && this.#round % 2 == 0) {
       throw "not player1 round";
     }
@@ -208,7 +219,7 @@ export class Game {
 
     const card = this.#cardDec[this.#cardDec.length - 1];
     this.#cardDec.splice(this.#cardDec.length - 1, 1);
-    
+
     card.setPlayer(player);
 
     player.setCard(card);
@@ -246,8 +257,12 @@ export class Game {
       player2: this.#player2?.getShowStates(),
       result: this.#result,
       round: this.#round,
-      cardDec: this.#cardDec.map(card => card.getName()),
+      cardDec: this.#cardDec.map((card) => card.getName()),
     };
+  }
+
+  getTopCard(){
+    return this.#cardDec[this.#cardDec.length-1];
   }
 
   getDatabaseStates() {
@@ -257,7 +272,7 @@ export class Game {
       player2: this.#player2?.getId(),
       result: this.#result,
       round: this.#round,
-      cardDec: this.#cardDec.map(card => card.getName()),
+      cardDec: this.#cardDec.map((card) => card.getName()),
     };
   }
 }

@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
+import gameRouter from "./routes/gameRoute.js";
+import cardRouter from "./routes/cardRoute.js";
+import choiceRouter from "./routes/choiceRoute.js";
 import { Game } from "./logic/game.js";
-import GameModel from "./models/gameModel.js";
-import mongoose from "mongoose";
-import PlayerModel from "./models/playerModel.js";
 
 const app = express();
 
@@ -13,6 +13,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // allow request from other origin (Frontend which is at different port)
 app.use(cors());
+app.use('/game', gameRouter);
+app.use('/card', cardRouter);
+app.use('/choice', choiceRouter);
+
 
 //test();
 

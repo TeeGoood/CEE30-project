@@ -7,17 +7,22 @@ export class Player {
   #quota;
   #score;
   #choice;
+  #game;
   #card;
   #isUse;
   #availableChoices;
 
   constructor(data = {}) {
     if (!data.id) {
-      throw( "not given id");
+      throw "not given id";
     }
 
-    if(!data.number){
-      throw( "not given number")
+    if (!data.game) {
+      throw "not given game";
+    }
+
+    if (!data.number) {
+      throw "not given number";
     }
 
     this.#id = data.id;
@@ -25,7 +30,10 @@ export class Player {
     this.#score = data.score || 0;
     this.#quota = data.quota || 2;
     this.#choice = data.choice || null;
-    this.#card = data.card ? new Card(data.card) : null;
+    this.#game = data.game;
+    this.#card = data.card
+      ? new Card({ name: data.card, Player: this, game: this.#game })
+      : null;
     this.#isUse = data.isUse || false;
     this.#availableChoices = data.availableChoices || choicesEnum;
   }

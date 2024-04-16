@@ -16,6 +16,10 @@ export class Card{
         if(!data.game){
             throw('not given card\'s game');
         }
+
+        if(!data.player){
+            throw('not given card\'s player');
+        }
         
         if(!(data.name in cardsEnum)){
             throw('invalid card name');
@@ -25,7 +29,7 @@ export class Card{
         this.#description = cardsEnum[data.name].description;
         this.#isForce = cardsEnum[data.name].isForce;
         this.#game = data.game;
-        this.#player = data.player || null;
+        this.#player = data.player;
 
     }
 

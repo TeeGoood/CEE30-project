@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { cardsEnum, choicesEnum } from "../logic/enum.js";
-import cardSchema from "./cardSchema.js";
 
 const playerSchema = new mongoose.Schema(
   {
@@ -23,12 +22,12 @@ const playerSchema = new mongoose.Schema(
     choice: {
       type: String,
       //required: true,
-      enum: [...choicesEnum, null]
+      //enum: [...choicesEnum, null]
     },
     card: {
       type: String,
       //required: true,
-      enum: Object.keys(cardsEnum)
+      //enum: Object.keys(cardsEnum)
     },
     availableChoices: {
       type: [String],

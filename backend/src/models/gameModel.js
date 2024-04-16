@@ -1,12 +1,12 @@
 import mongoose, { Schema } from "mongoose";
-import { gameStatesEnum, resultsEnum } from "../logic/enum.js";
+import { gameStatesEnum } from "../logic/enum.js";
 
 const gameSchema = new mongoose.Schema(
   {
     gameState: {
       type: String,
       //required: true,
-      enum: gameStatesEnum,
+      //enum: gameStatesEnum,
     },
     player1: {
       type: Schema.Types.ObjectId,
@@ -19,7 +19,7 @@ const gameSchema = new mongoose.Schema(
     result: {
       type: String,
       //required: true,
-      enum: [...resultsEnum, null]
+      //enum: [...resultsEnum, null]
     },
     round: {
       type: Number,
