@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import {  getGameObject, saveGame } from "../logic/utilities";
-import PlayerModel from "../models/playerModel";
+import {  getGameObject, saveGame } from "../logic/utilities.js";
+import PlayerModel from "../models/playerModel.js";
 
 export const getGameData = async (req, res) => {
   try {
@@ -54,3 +54,15 @@ export const resetGame = async (req, res) => {
     res.status(500).json({ error: "cannot reset game" });
   }
 };
+
+export const resumeGame = async (req, res) => {
+  try{
+    const gameObject = await getGameObject();
+    gameObject.resumeGame();
+    await saveGame(gameObject);
+  }
+  catch(error){
+    console.log(error.message);
+    res.status(500).json({ error: "cannot resume game" });
+  }
+}

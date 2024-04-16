@@ -1,4 +1,4 @@
-import { getGameObject, saveGame } from "../logic/utilities";
+import { getGameObject, saveGame } from "../logic/utilities.js";
 
 export const submitChoice = async (req, res) => {
   const playerChoice = req.query.choice;

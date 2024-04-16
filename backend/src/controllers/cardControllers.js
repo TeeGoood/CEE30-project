@@ -1,7 +1,7 @@
 import {
   getGameObject,
   saveGame,
-} from "../logic/utilities";
+} from "../logic/utilities.js";
 
 export const drawCard = async (req, res) => {
   // task return top card info
