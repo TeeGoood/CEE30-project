@@ -8,24 +8,60 @@ export class Game {
   #player2;
   #result;
   #round;
-  #cardDec = [
-    new Card(this, "Score_Swap"),
-    new Card(this, "Ground_Zero"),
-    new Card(this, "Even_Odds"),
-    new Card(this, "Escalating_The_Loss"),
-    new Card(this, "Rock_You"),
-    new Card(this, "Makeit_Or_Breakit"),
-    new Card(this, "OneMoreTime"),
-    new Card(this, "Paper_Loss"),
-    new Card(this, "Late_Game"),
-  ]; //TODO
+  #cardDec;
 
   constructor(gameStatus = {}) {
+    //console.log(gameStatus);
     this.#gameState = gameStatus.gameState || "waiting";
-    this.#player1 = gameStatus.player1 || null;
-    this.#player2 = gameStatus.player2 || null;
+    //console.log(this.#gameState);
+    this.#player1 = null;
+    this.#player2 = null;
     this.#result = gameStatus.result || null;
     this.#round = gameStatus.round || 1;
+    this.#cardDec = (
+      gameStatus.cardDec || [
+        "Late_Game",
+        "Paper_Loss",
+        "OneMoreTime",
+        "Makeit_Or_Breakit",
+        "Rock_You",
+        "Escalating_The_Loss",
+        "Even_Odds",
+        "Ground_Zero",
+        "Score_Swap",
+      ]
+    ).map(
+      (card) =>
+        new Card({
+          game: this,
+          name: card,
+        })
+    );
+  }
+
+  resetGameStates() {
+    this.#gameState = "waiting";
+    this.#player1 = null;
+    this.#player2 = null;
+    this.#result = null;
+    this.#round = 1;
+    this.#cardDec = [
+      "Late_Game",
+      "Paper_Loss",
+      "OneMoreTime",
+      "Makeit_Or_Breakit",
+      "Rock_You",
+      "Escalating_The_Loss",
+      "Even_Odds",
+      "Ground_Zero",
+      "Score_Swap",
+    ].map(
+      (card) =>
+        new Card({
+          game: this,
+          name: card,
+        })
+    );
   }
 
   getGameStates() {
@@ -39,21 +75,34 @@ export class Game {
     }
 
     if (!gameStatesEnum.includes(state)) {
-      console.log("error: invalid game state");
-      return;
+      throw "invalid game state";
     }
     this.#gameState = state;
   }
 
-  createPlayer(id) {
+  createPlayer(data) {
     if (!this.#player1) {
-      this.#player1 = new Player(id, 1);
+      this.setPlayer1(data);
+      return this.#player1;
     } else if (!this.#player2) {
-      this.#player2 = new Player(id, 2);
+      this.setPlayer2(data);
       this.updateGameState("card_select");
+      return this.#player2;
     } else {
-      console.log("error: players are full");
+      throw "game are full";
     }
+  }
+
+  setPlayer1(data) {
+    data.game = this;
+    data.number = 1;
+    this.#player1 = new Player(data);
+  }
+
+  setPlayer2(data) {
+    data.game = this;
+    data.number = 2;
+    this.#player2 = new Player(data);
   }
 
   getPlayerById(id) {
@@ -62,13 +111,13 @@ export class Game {
     } else if (this.#player2?.getId() == id) {
       return this.#player2;
     } else {
-      console.log(`error: cannot find player ${id}`);
-      return null;
+      throw `player ${id} is not in this game`;
     }
   }
 
   setPlayerChoice(id, choice) {
     const player = this.getPlayerById(id);
+    //console.log(this.getShowStates());
 
     //check errors
     if (!player) {
@@ -76,19 +125,16 @@ export class Game {
     }
 
     if (this.#gameState != "choice_select") {
-      console.log("error: not in choice_select state");
-      return;
+      throw "cannot set choice, invalid game state";
     }
 
     if (player.getChoice()) {
-      console.log("error: player already have selected choice");
-      return;
+      throw `player ${id} have already selected choice`;
     }
 
     //set player choice
-    if(!player.getAvailableChoice().includes(choice)){
-      console.log('not available choice');
-      return;
+    if (!player.getAvailableChoice().includes(choice)) {
+      throw "not available choice";
     }
     player.setChoice(choice);
 
@@ -102,7 +148,7 @@ export class Game {
     const card1 = this.#player1.getCard();
     const card2 = this.#player2.getCard();
     const card = card1 || card2;
-    if (card?.getIsUse()) {
+    if (card?.getIsForce() || card?.getPlayer().getIsUse()) {
       card.postSkill();
     } else {
       this.checkWinner(choice1, choice2);
@@ -110,7 +156,12 @@ export class Game {
     this.stopGame();
   }
 
-  resumeGame(){
+  stopGame() {
+    this.updateGameState("break");
+    //this.resumeGame();
+  }
+
+  resumeGame() {
     if (this.#player1.getScore() >= 3 || this.#player2.getScore() >= 3) {
       this.endGame();
     } else {
@@ -118,23 +169,25 @@ export class Game {
     }
   }
 
-  stopGame() {
-    this.updateGameState("break");
-    //this.resumeGame();
-  }
-  
-  startNewRound(){
+  startNewRound() {
     if (this.#gameState != "break") {
-      console.log("error: game is in invalid game state");
-      return;
+      throw "cannot start new Round, invalid game state";
     }
-    
+
     this.#round += 1;
     this.#player1.resetRoundState();
     this.#player2.resetRoundState();
     this.#result = null;
 
     this.updateGameState("card_select");
+  }
+
+  endGame() {
+    if (this.#gameState != "break") {
+      throw "cannot end game, invalid game state";
+    }
+
+    this.updateGameState("game_end");
   }
 
   checkWinner(choice1, choice2) {
@@ -156,14 +209,16 @@ export class Game {
   playerDrawCard(id, isDraw, isUse) {
     const player = this.getPlayerById(id);
 
+    if (this.#gameState != "card_select") {
+      throw "not in card_select state";
+    }
+
     if (player.getNumber() == 1 && this.#round % 2 == 0) {
-      console.error("error: not player1 round");
-      return;
+      throw "not player1 round";
     }
 
     if (player.getNumber() == 2 && this.#round % 2 != 0) {
-      console.error("error: not player2 round");
-      return;
+      throw "not player2 round";
     }
 
     this.#gameState = "choice_select";
@@ -173,25 +228,17 @@ export class Game {
     }
 
     const card = this.#cardDec[this.#cardDec.length - 1];
-    card.setPlayer(player);
-    player.setCard(card);
-    player.setQuota(player.getQuota() - 1);
     this.#cardDec.splice(this.#cardDec.length - 1, 1);
 
-    const playerCard = player.getCard();
-    playerCard.setIsUse(isUse || playerCard.getIsForce());
+    card.setPlayer(player);
 
-    if (playerCard.getIsUse()) {
-      player.getCard().preSkill();
+    player.setCard(card);
+    player.setQuota(player.getQuota() - 1);
+    player.setIsUse(isUse);
+
+    if (card.getIsForce() || player.getIsUse()) {
+      card.preSkill();
     }
-  }
-
-  endGame() {
-    if (this.#gameState != "break") {
-      console.log("error: cannot end game, invalid game state");
-    }
-
-    this.updateGameState("game_end");
   }
 
   getResult() {
@@ -200,8 +247,7 @@ export class Game {
 
   setResult(result) {
     if (!resultsEnum.includes(result)) {
-      console.error("error: invalid result");
-      return;
+      throw "invaild result";
     }
     this.#result = result;
   }
@@ -214,14 +260,29 @@ export class Game {
     }
   }
 
-  getGameField() {
+  getShowStates() {
     return {
       gameState: this.#gameState,
-      player1: this.#player1?.getPlayerStates(),
-      player2: this.#player2?.getPlayerStates(),
+      player1: this.#player1?.getShowStates(),
+      player2: this.#player2?.getShowStates(),
       result: this.#result,
       round: this.#round,
-      cardDec: this.#cardDec,
+      cardDec: this.#cardDec.map((card) => card.getName()),
+    };
+  }
+
+  getTopCard() {
+    return this.#cardDec[this.#cardDec.length - 1];
+  }
+
+  getDatabaseStates() {
+    return {
+      gameState: this.#gameState,
+      player1: this.#player1?.getId() || null,
+      player2: this.#player2?.getId() || null,
+      result: this.#result,
+      round: this.#round,
+      cardDec: this.#cardDec.map((card) => card.getName()),
     };
   }
 }
