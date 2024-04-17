@@ -12,17 +12,17 @@ export class Player {
   #isUse;
   #availableChoices;
 
-  constructor(data = {}) {
+  constructor(data = {}) {    
     if (!data.id) {
-      throw "not given id";
+      throw "player: can't initailize because of not given id";
     }
 
     if (!data.game) {
-      throw "not given game";
+      throw "player: can't initailize because of not given game";
     }
 
     if (!data.number) {
-      throw "not given number";
+      throw "player: can't initailize because of not given number";
     }
 
     this.#id = data.id;
@@ -32,7 +32,7 @@ export class Player {
     this.#choice = data.choice || null;
     this.#game = data.game;
     this.#card = data.card
-      ? new Card({ name: data.card, Player: this, game: this.#game })
+      ? new Card({ name: data.card, player: this, game: this.#game })
       : null;
     this.#isUse = data.isUse || false;
     this.#availableChoices = data.availableChoices || choicesEnum;
@@ -55,7 +55,7 @@ export class Player {
 
   setNumber(number) {
     if (number != 1 || number != 2) {
-      throw "invalid player number";
+      throw "player: can't set number because of invalid player number";
     }
   }
 
@@ -89,7 +89,7 @@ export class Player {
     if (choicesEnum.includes(choice) || choice === null) {
       this.#choice = choice;
     } else {
-      throw "invalid choice";
+      throw "player: invalid choice";
     }
   }
 
@@ -137,7 +137,7 @@ export class Player {
       score: this.#score,
       quota: this.#quota,
       choice: this.#choice,
-      card: this.#card?.getName(),
+      card: this.#card ?  this.#card.getName() : null,
       isUse: this.#isUse,
       availableChoices: this.#availableChoices,
     };

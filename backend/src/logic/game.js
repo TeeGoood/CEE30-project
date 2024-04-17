@@ -8,51 +8,35 @@ export class Game {
   #player2;
   #result;
   #round;
-  #cardDec = [
-    new Card({
-      game: this,
-      name: "Score_Swap",
-    }),
-    new Card({
-      game: this,
-      name: "Ground_Zero",
-    }),
-    new Card({
-      game: this,
-      name: "Even_Odds",
-    }),
-    new Card({
-      game: this,
-      name: "Escalating_The_Loss",
-    }),
-    new Card({
-      game: this,
-      name: "Rock_You",
-    }),
-    new Card({
-      game: this,
-      name: "Makeit_Or_Breakit",
-    }),
-    new Card({
-      game: this,
-      name: "OneMoreTime",
-    }),
-    new Card({
-      game: this,
-      name: "Paper_Loss",
-    }),
-    new Card({
-      game: this,
-      name: "Late_Game",
-    }),
-  ];
+  #cardDec;
 
   constructor(gameStatus = {}) {
+    //console.log(gameStatus);
     this.#gameState = gameStatus.gameState || "waiting";
+    //console.log(this.#gameState);
     this.#player1 = null;
     this.#player2 = null;
     this.#result = gameStatus.result || null;
     this.#round = gameStatus.round || 1;
+    this.#cardDec = (
+      gameStatus.cardDec || [
+        "Late_Game",
+        "Paper_Loss",
+        "OneMoreTime",
+        "Makeit_Or_Breakit",
+        "Rock_You",
+        "Escalating_The_Loss",
+        "Even_Odds",
+        "Ground_Zero",
+        "Score_Swap",
+      ]
+    ).map(
+      (card) =>
+        new Card({
+          game: this,
+          name: card,
+        })
+    );
   }
 
   resetGameStates() {
@@ -61,6 +45,23 @@ export class Game {
     this.#player2 = null;
     this.#result = null;
     this.#round = 1;
+    this.#cardDec = [
+      "Late_Game",
+      "Paper_Loss",
+      "OneMoreTime",
+      "Makeit_Or_Breakit",
+      "Rock_You",
+      "Escalating_The_Loss",
+      "Even_Odds",
+      "Ground_Zero",
+      "Score_Swap",
+    ].map(
+      (card) =>
+        new Card({
+          game: this,
+          name: card,
+        })
+    );
   }
 
   getGameStates() {
@@ -80,20 +81,28 @@ export class Game {
   }
 
   createPlayer(data) {
-    if(this.#gameState != "waiting"){
-      throw "not in waiting state";
-    }
-
     if (!this.#player1) {
-      this.#player1 = new Player({ ...data, number: 1, game: this });
+      this.setPlayer1(data);
       return this.#player1;
     } else if (!this.#player2) {
-      this.#player2 = new Player({ ...data, number: 2, game: this });
+      this.setPlayer2(data);
       this.updateGameState("card_select");
       return this.#player2;
     } else {
       throw "game are full";
     }
+  }
+
+  setPlayer1(data) {
+    data.game = this;
+    data.number = 1;
+    this.#player1 = new Player(data);
+  }
+
+  setPlayer2(data) {
+    data.game = this;
+    data.number = 2;
+    this.#player2 = new Player(data);
   }
 
   getPlayerById(id) {
@@ -108,6 +117,7 @@ export class Game {
 
   setPlayerChoice(id, choice) {
     const player = this.getPlayerById(id);
+    //console.log(this.getShowStates());
 
     //check errors
     if (!player) {
@@ -138,7 +148,7 @@ export class Game {
     const card1 = this.#player1.getCard();
     const card2 = this.#player2.getCard();
     const card = card1 || card2;
-    if (card?.getIsForce() || card?.player.isUse()) {
+    if (card?.getIsForce() || card?.getPlayer().getIsUse()) {
       card.postSkill();
     } else {
       this.checkWinner(choice1, choice2);
@@ -199,7 +209,7 @@ export class Game {
   playerDrawCard(id, isDraw, isUse) {
     const player = this.getPlayerById(id);
 
-    if(this.#gameState != "card_select"){
+    if (this.#gameState != "card_select") {
       throw "not in card_select state";
     }
 
@@ -261,15 +271,15 @@ export class Game {
     };
   }
 
-  getTopCard(){
-    return this.#cardDec[this.#cardDec.length-1];
+  getTopCard() {
+    return this.#cardDec[this.#cardDec.length - 1];
   }
 
   getDatabaseStates() {
     return {
       gameState: this.#gameState,
-      player1: this.#player1?.getId(),
-      player2: this.#player2?.getId(),
+      player1: this.#player1?.getId() || null,
+      player2: this.#player2?.getId() || null,
       result: this.#result,
       round: this.#round,
       cardDec: this.#cardDec.map((card) => card.getName()),

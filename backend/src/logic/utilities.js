@@ -26,19 +26,21 @@ const convertDatabaseToObject = async (gameData) => {
     const gameObject = new Game(gameData);
     if(gameData.player1){
         const player1 = await PlayerModel.findById(gameData.player1);
-        gameObject.createPlayer(player1);
+        //console.log(player1.id);
+        gameObject.setPlayer1(player1);
     }
     if(gameData.player2){
         const player2 = await PlayerModel.findById(gameData.player2);
-        gameObject.createPlayer(player2);
+        gameObject.setPlayer2(player2);
     }
     return gameObject;
 }
 
 export const saveGame = async (gameObject) => {
+    //console.log(gameObject.getDatabaseStates());
     await GameModel.findOneAndUpdate({}, gameObject.getDatabaseStates());
+    
     const player1 = gameObject.getPlayerByNumber(1);
-
     if(player1){
         await PlayerModel.findByIdAndUpdate(player1.getId(), player1.getDatabaseStates());
     }
@@ -52,10 +54,14 @@ export const saveGame = async (gameObject) => {
 export const getGameObject = async () =>{
     let gameData = await GameModel.findOne({});
     if(!gameData){
-        gameData = {}; 
+        gameData = {};
+        const gameModel = await GameModel(gameData);
+        gameModel.save();
     }
+    //console.log(gameData);
 
     const gameObject = await convertDatabaseToObject(gameData);
+    
     return gameObject;
 }
 
