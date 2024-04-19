@@ -214,7 +214,7 @@ export const cardsEnum = {
   },
 
   Score_Swap: {
-    description: "สลับแต้มของผู้เล่น",
+    description: "สลับแต้มรวมของผู้เล่น",
     isForce: true,
     preSkill: (game, player) => {
       const player1 = game.getPlayerByNumber(1);
@@ -227,4 +227,19 @@ export const cardsEnum = {
       checkWinner(game);
     },
   },
+
+  Chaos: {
+    description: "เราเลือกเป้าให้ฝ่ายตรงข้าม และฝ่ายตรงข้ามเลือกเป้าให้เรา",
+    isForce: true,
+    preSkill: (game, player) => {},
+    postSkill: (game, player) => {
+      const number = player.getNumber() == 1 ? 2 : 1;
+      const opponent = game.getPlayerByNumber(number);
+      const prescore_oppo = opponent.getScore();
+      const prescore_player = player.getScore();
+      opponent.setScore(prescore_player);
+      player.setScore(prescore_oppo);
+      checkWinner(game);
+    }
+  }
 };
