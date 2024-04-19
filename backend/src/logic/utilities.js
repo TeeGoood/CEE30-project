@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+import GameModel from "../models/gameModel.js";
+import PlayerModel from "../models/playerModel.js";
+import { Game } from "./game.js";
+
+>>>>>>> main
 export function checkWinner(game){
     const player1 = game.getPlayerByNumber(1);
     const player2 = game.getPlayerByNumber(2);
@@ -16,4 +23,52 @@ export function checkWinner(game){
         game.setResult("player2");
         player2.setScore(player2.getScore() + 1);
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+const convertDatabaseToObject = async (gameData) => {
+    const gameObject = new Game(gameData);
+    if(gameData.player1){
+        const player1 = await PlayerModel.findById(gameData.player1);
+        //console.log(player1.id);
+        gameObject.setPlayer1(player1);
+    }
+    if(gameData.player2){
+        const player2 = await PlayerModel.findById(gameData.player2);
+        gameObject.setPlayer2(player2);
+    }
+    return gameObject;
+}
+
+export const saveGame = async (gameObject) => {
+    //console.log(gameObject.getDatabaseStates());
+    await GameModel.findOneAndUpdate({}, gameObject.getDatabaseStates());
+    
+    const player1 = gameObject.getPlayerByNumber(1);
+    if(player1){
+        await PlayerModel.findByIdAndUpdate(player1.getId(), player1.getDatabaseStates());
+    }
+
+    const player2 = gameObject.getPlayerByNumber(2);
+    if(player2){
+        await PlayerModel.findByIdAndUpdate(player2.getId(), player2.getDatabaseStates());       
+    }
+}
+
+export const getGameObject = async () =>{
+    let gameData = await GameModel.findOne({});
+    if(!gameData){
+        gameData = {};
+        const gameModel = await GameModel(gameData);
+        gameModel.save();
+    }
+    //console.log(gameData);
+
+    const gameObject = await convertDatabaseToObject(gameData);
+    
+    return gameObject;
+}
+
+>>>>>>> main
