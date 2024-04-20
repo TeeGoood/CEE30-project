@@ -11,7 +11,19 @@
             margin-top: 50px;
         }
         h1 {
-            margin-bottom: 30px;
+            margin: 0;
+        }
+        .container {
+            background-image: url('img/background.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            min-height: 120vh;
+            background-color: rgba(255,255,255,0.5);
+            box-sizing: border-box;
         }
         .choice-button {
             display: inline-block;
@@ -30,14 +42,18 @@
 
         #reset-button {
             position: absolute;
-            top: 10px;
+            top: 20px;
             right: 10px;
-            padding: 10px 20px;
+            padding: 15px 30px;
             background-color: #dc3545;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.2rem; 
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
         #reset-button:hover {
             background-color: #c0392b;
@@ -45,7 +61,9 @@
     </style>
 </head>
 <body>
-<button id="reset-button" onclick="resetGame()">Reset</button>
+    <div class="container">
+        <button id="reset-button" onclick="resetGame()">Reset</button>
+    </div>
 
 <h1>Choose Your Move</h1>
 <div class="buttons">
