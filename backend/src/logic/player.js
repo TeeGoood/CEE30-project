@@ -1,8 +1,40 @@
+<<<<<<< HEAD
+=======
 import { Card } from "./card.js";
+>>>>>>> main
 import { choicesEnum } from "./enum.js";
 
 export class Player {
   #id;
+<<<<<<< HEAD
+  #choice;
+  #score;
+  #number;
+  #card = null;
+  #quota;
+  #availableChoices = choicesEnum;
+
+  constructor(id, number) {
+    this.#id = id;
+    this.#number = number;
+    this.#choice = null;
+    this.#score = 0;
+    this.#quota = 2;
+  }
+
+  resetRoundState(){
+    this.#choice = null;
+    this.#card = null;
+    this.#availableChoices = choicesEnum;
+  }
+
+  getQuota(){
+    return this.#quota;
+  }
+
+  setQuota(quota){
+    this.#quota = quota; 
+=======
   #number;
   #quota;
   #score;
@@ -79,6 +111,7 @@ export class Player {
     if (this.#score < 0) {
       this.#score = 0;
     }
+>>>>>>> main
   }
 
   getChoice() {
@@ -89,6 +122,60 @@ export class Player {
     if (choicesEnum.includes(choice) || choice === null) {
       this.#choice = choice;
     } else {
+<<<<<<< HEAD
+      console.log("error: not in definded choices");
+      return;
+    }
+  }
+
+  setAvailableChoices(choices){
+    this.#availableChoices = choices;
+  }
+
+  getNumber(){
+    return this.#number;
+  }
+
+  getId() {
+    return this.#id;
+  }
+
+  getScore() {
+    return this.#score;
+  }
+
+  setScore(score) {
+    this.#score = score;
+    if(this.#score < 0){
+      this.#score = 0;
+    }
+  }
+
+  getNumber(){
+    return this.#number;
+  }
+
+  getCard(){
+    return this.#card;
+  }
+
+  setCard(card){
+    this.#card = card; 
+  }
+
+  getAvailableChoice(){
+    return this.#availableChoices;
+  }
+
+  getPlayerStates() {
+    return {
+      id: this.#id,
+      choice: this.#choice,
+      score: this.#score,
+      number: this.#number,
+      card: this.#card?.getCardState(),
+      quota: this.#quota,
+=======
       throw "player: invalid choice";
     }
   }
@@ -139,6 +226,7 @@ export class Player {
       choice: this.#choice,
       card: this.#card ?  this.#card.getName() : null,
       isUse: this.#isUse,
+>>>>>>> main
       availableChoices: this.#availableChoices,
     };
   }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors Game</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="centered-text">
+  <h1>Rock Paper Scissors</h1>
+</div>
+
+<div class="container">
+  <div class="column">
+    <h2>You choose :</h2>
+    <div class="buttons">
+      <button class="rock" type="button" onclick="play('rock')">
+        <img src="rock.png" alt="Rock" width="100" height="100">
+      </button>
+      <button class="paper" type="button" onclick="play('paper')">
+        <img src="paper.png" alt="Paper" width="100" height="100">
+      </button>
+      <button class="scissors hover" type="button" onclick="play('scissors')">
+        <img src="scissors.png" alt="Scissors" width="100" height="100">
+      </button>
+    </div>
+  </div>
+
+  <div class="column">
+    <h2>Your opponent choose :</h2>
+    <div id="opponentChoice"></div>
+  </div>
+</div>
+
+<div class="result-text">
+  <p id="resultMessage"></p>
+</div>
+
+<!-- Card Display -->
+<img src="ageheart.png" alt="Card" class="card-image">
+
+
+
+<!-- Draw Card Button -->
+<button class="draw-card-btn" onclick="drawCard()">
+  <img src="carddraw.png" alt="Draw Card">
+</button>
+<div class="draw-count">2/2</div>
+
+<!-- Score Display -->
+<div class="score" id="score">
+  <span id="playerScore">Player: 0</span>
+  <span id="opponentScore">Opponent: 0</span>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
