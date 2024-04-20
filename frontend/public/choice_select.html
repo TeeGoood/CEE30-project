@@ -27,9 +27,26 @@
         .choice-button:hover {
             background-color: #2980b9;
         }
+
+        #reset-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #reset-button:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
 <body>
+<button id="reset-button" onclick="resetGame()">Reset</button>
+
 <h1>Choose Your Move</h1>
 <div class="buttons">
     <button class="rock" type="button" onclick="selectChoice('rock')">
@@ -49,6 +66,13 @@
         alert("You selected: " + choice);
         // You can replace the alert with code to send the choice to the server or process it further
     }
+
+    function resetGame() {
+        // Implement code to reset the game
+        alert("Resetting game...");
+        // You can replace the alert with code to reset the game state
+    }
+
 </script>
 </body>
 </html>

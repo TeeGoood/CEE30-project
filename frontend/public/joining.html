@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            margin-top: 50px;
+        }
+        #join-form {
+            margin-top: 20px;
+        }
+        #join-form input[type="text"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #join-form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #reset-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to Rock Paper Scissors Game!</h1>
+<button id="reset-button" onclick="resetGame()">Reset</button>
+<form id="join-form" action="card_select.html" method="GET">
+    <input type="submit" value="Join Game">
+</form>
+
+<script>
+    function resetGame() {
+        // Add logic here to reset the game state
+        alert("Game reset!");
+    }
+</script>
+</body>
+</html>
