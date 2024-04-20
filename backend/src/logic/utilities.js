@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
 import GameModel from "../models/gameModel.js";
 import PlayerModel from "../models/playerModel.js";
 import { Game } from "./game.js";
 
->>>>>>> main
 export function checkWinner(game){
     const player1 = game.getPlayerByNumber(1);
     const player2 = game.getPlayerByNumber(2);
@@ -23,9 +20,6 @@ export function checkWinner(game){
         game.setResult("player2");
         player2.setScore(player2.getScore() + 1);
     }
-<<<<<<< HEAD
-}
-=======
 }
 
 const convertDatabaseToObject = async (gameData) => {
@@ -71,4 +65,3 @@ export const getGameObject = async () =>{
     return gameObject;
 }
 
->>>>>>> main
