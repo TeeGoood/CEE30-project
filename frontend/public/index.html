@@ -46,15 +46,57 @@
 <body>
 <h1>Welcome to Rock Paper Scissors Game!</h1>
 <button id="reset-button" onclick="resetGame()">Reset</button>
-<form id="join-form" action="card_select.html" method="GET">
-    <input type="submit" value="Join Game">
-</form>
+<button id="join-form" onclick="joinGame()">Join</button>
+
+
 
 <script>
     function resetGame() {
         // Add logic here to reset the game state
         alert("Game reset!");
     }
+    function  joinGame(){
+       /* const url = "http://localhost:3222/game/join";
+        fetch(url)
+            .then(res =>
+                res.json()
+            )
+            .then(data => {
+                console.log(data)
+                if(data.error){
+                    //show error to player
+                    //......................
+                }
+                else{
+                    //go to waiting.html
+                    window.location.href = "waiting.html";
+                }
+
+            }).catch(error => console.log(error))*/
+
+        const url = "http://localhost:3222/game/join";
+        fetch(url)
+            .then(res => {
+                if (res.status === 500) {
+                    throw new Error("Internal Server Error");
+                }
+                return res.json();
+            })
+            .then(data => {
+                // Handle successful response
+                window.location.href = "waiting.html";
+                console.log(data);
+                // Redirect to waiting.html or perform other actions
+            })
+            .catch(error => {
+                // Handle errors, including 500 Internal Server Error
+                console.log("Tell Player that it is full.");
+                console.log(error);
+            });
+
+    }
+
+
 </script>
 </body>
 </html>
