@@ -17,7 +17,7 @@
         .container {
             background-image: url('img/background.jpg');
             background-repeat: no-repeat;
-            background-attachment: fixed;
+            animation: slide 10s linear infinite;
             background-size: cover;
             background-position: center;
             margin: 0;
@@ -25,6 +25,17 @@
             min-height: 120vh;
             background-color: rgba(255,255,255,0.5);
             box-sizing: border-box;
+        }
+        @keyframes slide {
+            0% {
+            background-position: 0 0;
+            }
+            50% {
+                background-position: 30% 0; /* Move a little bit to the left */
+            }
+            100% {
+                background-position: 0 0; /* Slide back to original position */
+            }
         }
         @font-face {
             font-family: 'Rocher';
