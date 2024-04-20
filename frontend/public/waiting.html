@@ -6,18 +6,43 @@
     <title>Rock Paper Scissors - Waiting Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             text-align: center;
-
             margin-top: 50px;
         }
-        h1 {
-            margin-top: 30px;
-
+        .container {
+            background-image: url('img/background.jpg');
+            /* height: 100%; */
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            min-height: 120vh;
+            background-color: rgba(255,255,255,0.5);
         }
-        #message {
+        @font-face {
+            font-family: 'Rocher';
+            src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
+        }
+        @font-palette-values --Purples {
+            font-family: Rocher;
+            base-palette: 6;
+        }
+        .purples {
+            font-size: 100px;
+            font-family: 'Rocher';
+            font-palette: --Purples;
+        }
+        /* h1 {
             margin-top: 30px;
-            font-size: 18px;
+        } */
+        @font-palette-values --Mint {
+            font-family: Rocher;
+            base-palette: 7;
+        }
+        .mint {
+            font-size: 30px;
+            font-family: 'Rocher';
+            font-palette: --Mint;
         }
         #loader {
             display: inline-block;
@@ -36,14 +61,18 @@
 
         #reset-button {
             position: absolute;
-            top: 10px;
+            top: 80px;
             right: 10px;
-            padding: 10px 20px;
+            padding: 15px 30px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.2rem; 
+            font-weight: bold;
             background-color: #dc3545;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         #reset-button:hover {
             background-color: #c0392b;
@@ -51,10 +80,12 @@
     </style>
 </head>
 <body>
-<button id="reset-button" onclick="resetGame()">Reset</button>
-<h1>Welcome to Rock Paper Scissors Game</h1>
-<div id="message">Waiting for another player to join...</div>
-<div id="loader"></div>
+    <div class="container">
+        <button id="reset-button" onclick="resetGame()">Reset</button>
+        <h1 class="purples">Welcome to<br>Rock Paper Scissors<br>Game !</h1>
+        <p class="mint">Waiting for another player to join...</p>
+        <div id="loader"></div>
+    </div>
 
 <script>
     function resetGame() {
