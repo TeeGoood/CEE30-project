@@ -42,12 +42,23 @@
         #cancelButton {
             position: absolute;
             top: 10px;
-            right: 10px;
-            background-color: #dc3545;
+            right: 90px;
+            background-color: #6c757d;
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 8px 16px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #resetButton {
+            position: absolute;
+            top: 10px;
+            right: 5px;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
     </style>
@@ -55,14 +66,13 @@
 <body>
 <h1>Card Selection</h1>
 <button id="cancelButton" onclick="cancelSelection()">Cancel</button>
+<button id="resetButton" onclick="resetCard()">Reset</button>
 <div id="cardDeck" onclick="drawCard()"></div>
 <div id="cardDescription"></div>
 <div class="button-container" id="buttonContainer" style="display: none;">
     <button class="button" onclick="useCard()">Use</button>
     <button class="button" onclick="discardCard()">Discard</button>
 </div>
-
-
 
 <script>
     // Array of card descriptions

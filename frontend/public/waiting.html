@@ -8,9 +8,10 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            margin-top: 50px;
         }
         h1 {
-            margin-top: 50px;
+            margin-top: 30px;
         }
         #message {
             margin-top: 30px;
@@ -30,11 +31,34 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        #reset-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #reset-button:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
 <body>
+<button id="reset-button" onclick="resetGame()">Reset</button>
 <h1>Welcome to Rock Paper Scissors Game</h1>
 <div id="message">Waiting for another player to join...</div>
 <div id="loader"></div>
+
+<script>
+    function resetGame() {
+        // Implement code to reset the game
+        alert("Resetting game...");
+        // You can replace the alert with code to reset the game state
+    }
+</script>
 </body>
 </html>
