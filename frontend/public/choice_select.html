@@ -90,13 +90,19 @@
         background-color: #2980b9;
       }
 
-      #reset-button {
+      .button-container {
+        display: flex;
+        gap: 10px; /* Space between buttons */
         position: absolute;
         top: 20px;
         right: 10px;
+      }
+
+      #reset-button,
+      #resume-button {
         padding: 15px 30px;
-        background-color: #dc3545;
-        color: #fff;
+        background-color: #dc3545; /* Red for reset button */
+        color: hsl(0, 0%, 100%);
         border: none;
         border-radius: 10px;
         cursor: pointer;
@@ -105,14 +111,29 @@
         font-weight: bold;
         transition: background-color 0.3s ease;
       }
+
       #reset-button:hover {
-        background-color: #c0392b;
+        color: #922317;
+        background-color: rgb(255, 223, 223);
+      }
+
+      #resume-button {
+        background-color: #66c02a; /* Green for resume button */
+        display: none;
+      }
+
+      #resume-button:hover {
+        color: #4a861c;
+        background-color: rgb(231, 246, 209);
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <button id="reset-button" onclick="resetGame()">Reset</button>
+      <div class="button-container">
+        <button id="resume-button" onclick="resumeGame()">Resume</button>
+        <button id="reset-button" onclick="resetGame()">Reset</button>
+      </div>
       <h1 id="title-text"><br />Choose Your Move</h1>
       <div class="buttons">
         <button class="rock" type="button" onclick="selectChoice('rock')">
@@ -138,57 +159,77 @@
       const urlParams = new URLSearchParams(window.location.search);
       const player_id = urlParams.get("player_id");
       const player_number = urlParams.get("player_number");
+      /* const player_choice = urlParams.get("choice"); */
 
       setInterval(() => {
         function selectChoice(choice) {
           alert("You selected: " + choice);
-          fetch("http://localhost:3222/game")
+          fetch(`http://localhost:3222/game`)
             .then((res) => res.json())
             .then((data) => {
+                console.log(data);
+              if (
+                data.gameState == "break" &&
+                data.result == "player" + player_id
+              ) {
+                alert("You Win !");
+                document.getElementById("resume-button").style.display = "";
+                /* return; */
+              } else if (
+                data.gameState == "break" &&
+                data.result == "draw"
+              ) {
+                alert("Draw !");
+                document.getElementById("resume-button").style.display = "";
+                /* return; */
+              } else if (data.gameState == "break" && data.result == "draw") {
+                alert("You Lose !");
+                document.getElementById("resume-button").style.display = "";
+                /* return; */
+              }
 
-                if (data.gameState == "break" && data.result == "player"+player_id) { // incase me win
-                    alert("You Win !");
-                }else if (data.gameState == "break" && data.result != "player"+player_id) { // incase me lose
-                    alert("You Lose !");
-                } else if (data.gameState == "break" && data.result == "draw") {
-                    alert("Draw !");
-                }
-
-                fetch("http://localhost:3222/game/resume")
-                    .then((res) => res.json())
-                    .then((data) => {
-
-                        console.log(data.gameState);
-
-                        if (player_number == 1 && data.round%2 == 0) {
-                            window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
-                            return;
-                        }
-
-                        if (player_number == 1 && data.round%2 != 0) {
-                            window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
-                            return;
-                        }
-
-                        if (player_number == 2 && data.round%2 != 0) {
-                            window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
-                            return;
-                        }
-
-                        if (player_number == 2 && data.round%2 == 0) {
-                            window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
-                            return;
-                        }
-            
-                    })
-
+              return fetch("http://localhost:3222/choice/submit?player_id=${player_id}&player_choice=${choice}");
             });
         }
       }, 1000);
 
       function resetGame() {
         alert("Resetting game...");
-        window.location.href = `http://localhost:3221/index.html`;
+        fetch(`http://localhost:3222/game/reset`)
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            window.location.href = `http://localhost:3221/index.html`;
+        })
+    }
+
+      function resumeGame() {
+        alert("Resuming game...");
+        fetch(`http://localhost:3222/game/resume`)
+          .then((res) => res.json())
+          .then((data) => {
+
+            if (player_number == 1 && data.round % 2 == 0) {
+              window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
+              return;
+            }
+
+            if (player_number == 1 && data.round % 2 != 0) {
+              window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
+              return;
+            }
+
+            if (player_number == 2 && data.round % 2 != 0) {
+              window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
+              return;
+            }
+
+            if (player_number == 2 && data.round % 2 == 0) {
+              window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
+              return;
+            }
+          });
       }
     </script>
   </body>

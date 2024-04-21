@@ -104,7 +104,7 @@
     <div class="container">
       <button id="reset-button" onclick="resetGame()">Reset</button>
       <h1 id="game-name"><br />Rock Paper Scissors Game</h1>
-      <div id="message">Waiting for another player to draw card...</div>
+      <div id="message"> Waiting for another player to draw card... </div>
       <div id="loader"></div>
     </div>
     <script>
@@ -114,18 +114,24 @@
 
       function resetGame() {
         alert("Resetting game...");
-        window.location.href = `http://localhost:3221/index.html`;
-      }
+        fetch(`http://localhost:3222/game/reset`)
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            window.location.href = `http://localhost:3221/index.html`;
+        })
+    }
 
       setInterval(() => {
-        fetch("http://localhost:3222/game")
+        fetch(`http://localhost:3222/game`)
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
             if (data.gameState == "choice_select") {
               window.location.href = `http://localhost:3221/choice_select.html?player_id=${player_id}&player_number=${player_number}`;
               return;
             }
+            return;
           });
       }, 1000);
     </script>

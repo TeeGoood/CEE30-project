@@ -55,7 +55,7 @@
 
       function resetGame() {
         // Add logic here to reset the game state
-        alert("Game reset!");
+        alert("Resetting game...");
         fetch(backendURL + 'game/reset')
         .then(res => {
             if (res.status == 500) {
