@@ -51,27 +51,36 @@
     <script>
       let playerData;
       let err;
+      const backendURL = "http://localhost:3222/";
 
       function resetGame() {
         // Add logic here to reset the game state
-        fetch("http://localhost:3222/game/reset")
-          .then((res) => res.json())
-          .then((data) => console.log(data));
-      }
+        alert("Game reset!");
+        fetch(backendURL + 'game/reset')
+        .then(res => {
+            if (res.status == 500) {
+              throw "game is full";
+            }
+            return res.json();
+        })
+        .then(data => {
+            console.log(data);
+        })
+    }
 
       function joinGame() {
         fetch("http://localhost:3222/game/join")
           .then((res) => {
             if (res.status == 500) {
-              console.log("hello");
               throw "game is full";
             }
-            res.json();
+            console.log(res);
+            return res.json();
           })
           .then((data) => {
             console.log(data);
             playerData = data;
-            //window.location.href = `http://localhost:3221/Waiting.html?player_id=${playerData.id}&player_number=${playerData.number}`;
+            window.location.href = `http://localhost:3221/waiting.html?player_id=${playerData.id}&player_number=${playerData.number}`;
           })
           .catch((error) => {
             err = error;
