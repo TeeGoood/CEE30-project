@@ -69,7 +69,7 @@
     }
 
       function joinGame() {
-        fetch("http://localhost:3222/game/join")
+        fetch(backendURL + "game/join")
           .then((res) => {
             if (res.status == 500) {
               throw "game is full";

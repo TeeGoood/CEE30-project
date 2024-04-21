@@ -112,7 +112,7 @@
       <h1 class="purples">
         <br />Welcome to<br />Rock Paper Scissors<br />Game !
       </h1>
-      <p class="mint">Waiting for another player to join...</p>
+      <p class="mint">Waiting for another player to join.. </p>
       <div id="loader"></div>
     </div>
 
@@ -122,17 +122,46 @@
       const player_number = urlParams.get("player_number");
       console.log(player_id, player_number);
 
-      setInterval(function () {
-        fetch("http://localhost:3222/game").then(res => res.json()).then(data => {
-            
+      setInterval(() => {
+        fetch("http://localhost:3222/game")
+        .then(res => res.json())
+        .then(data => {
             console.log(data)
+            if(data.gameState != "card_select"){
+              return;
+            }
+
+            if(player_number == 1 ){
+              window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`
+              return;
+            }
+            
+            if(player_number == 2){
+              window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`
+              return;
+            }
+
+            /* if (data.gameState == "card_select") {
+              if (data.round%2 != 0) { //round คี่
+                if (data.player_number == 1) {
+                  window.location.href = `http://localhost:3221/card_select.html`
+                } else {
+                  window.location.href = `http://localhost:3221/waiting_card_select.html`
+                }
+              } else {  //round คู่
+                if (data.player_number == 1){
+                  window.location.href = `http://localhost:3221/waiting_card_select.html`
+                } else {
+                  window.location.href = `http://localhost:3221/card_select.html`
+                }
+              }
+            } */
         });
       }, 1000);
 
       function resetGame() {
-        // Implement code to reset the game
         alert("Resetting game...");
-        // You can replace the alert with code to reset the game state
+        window.location.href = `http://localhost:3221/index.html`;
       }
 
     </script>
