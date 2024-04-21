@@ -1,122 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock Paper Scissors - Waiting Page</title>
     <style>
-        /* body {
+      /* body {
             
             margin-top: 50px;
         } */
-        body {
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        h1 {
-            margin : 0;
-        }
-        .container {
-            background-image: url('img/background.jpg');
-            animation: slide 10s linear infinite;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            margin: 0;
-            padding: 0;
-            /* width: 100%;
+      body {
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        margin: 0;
+      }
+      .container {
+        background-image: url("img/background.jpg");
+        animation: slide 10s linear infinite;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        /* width: 100%;
             height: 100%; */
-            min-height: 120vh;
-            background-color: rgba(255,255,255,0.5);
-            box-sizing: border-box;
+        min-height: 120vh;
+        background-color: rgba(255, 255, 255, 0.5);
+        box-sizing: border-box;
+      }
+      @keyframes slide {
+        0% {
+          background-position: 0 0;
         }
-        @keyframes slide {
-            0% {
-            background-position: 0 0;
-            }
-            50% {
-                background-position: 30% 0; /* Move a little bit to the left */
-            }
-            100% {
-                background-position: 0 0; /* Slide back to original position */
-            }
+        50% {
+          background-position: 30% 0; /* Move a little bit to the left */
         }
-        @font-face {
-            font-family: 'Rocher';
-            src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
+        100% {
+          background-position: 0 0; /* Slide back to original position */
         }
-        @font-palette-values --Yellow {
-            font-family: Rocher;
-            base-palette: 11;
-        }
-        .purples {
-            font-size: 100px;
-            font-family: 'Rocher';
-            font-palette: --Yellow;
-        }
-        /* h1 {
+      }
+      @font-face {
+        font-family: "Rocher";
+        src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
+      }
+      @font-palette-values --Yellow {
+        font-family: Rocher;
+        base-palette: 11;
+      }
+      .purples {
+        font-size: 100px;
+        font-family: "Rocher";
+        font-palette: --Yellow;
+      }
+      /* h1 {
             margin-top: 30px;
         } */
-        @font-palette-values --Mint {
-            font-family: Rocher;
-            base-palette: 7;
+      @font-palette-values --Mint {
+        font-family: Rocher;
+        base-palette: 7;
+      }
+      .mint {
+        font-size: 30px;
+        font-family: "Rocher";
+        font-palette: --Mint;
+      }
+      #loader {
+        display: inline-block;
+        border: 6px solid #f3f3f3; /* Light grey */
+        border-top: 6px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin-top: 30px;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-        .mint {
-            font-size: 30px;
-            font-family: 'Rocher';
-            font-palette: --Mint;
+        100% {
+          transform: rotate(360deg);
         }
-        #loader {
-            display: inline-block;
-            border: 6px solid #f3f3f3; /* Light grey */
-            border-top: 6px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin-top: 30px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+      }
 
-        #reset-button {
-            position: absolute;
-            top: 20px;
-            right: 10px;
-            padding: 15px 30px;
-            font-family: 'Open Sans', sans-serif;
-            font-size: 1.2rem; 
-            font-weight: bold;
-            background-color: #dc3545;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        #reset-button:hover {
-            background-color: #c0392b;
-        }
+      #reset-button {
+        position: absolute;
+        top: 20px;
+        right: 10px;
+        padding: 15px 30px;
+        font-family: "Open Sans", sans-serif;
+        font-size: 1.2rem;
+        font-weight: bold;
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      #reset-button:hover {
+        background-color: #c0392b;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <button id="reset-button" onclick="resetGame()">Reset</button>
-        <h1 class="purples"><br>Welcome to<br>Rock Paper Scissors<br>Game !</h1>
-        <p class="mint">Waiting for another player to join...</p>
-        <div id="loader"></div>
+      <button id="reset-button" onclick="resetGame()">Reset</button>
+      <h1 class="purples">
+        <br />Welcome to<br />Rock Paper Scissors<br />Game !
+      </h1>
+      <p class="mint">Waiting for another player to join...</p>
+      <div id="loader"></div>
     </div>
 
-<script>
-    function resetGame() {
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const player_id = urlParams.get("player_id");
+      const player_number = urlParams.get("player_number");
+      console.log(player_id, player_number);
+
+      setInterval(function () {
+        fetch("http://localhost:3222/game").then(res => res.json()).then(data => {
+            
+            console.log(data)
+        });
+      }, 1000);
+
+      function resetGame() {
         // Implement code to reset the game
         alert("Resetting game...");
         // You can replace the alert with code to reset the game state
-    }
-</script>
-</body>
-</html>
+      }
 
+    </script>
+  </body>
+</html>

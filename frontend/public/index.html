@@ -1,102 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock Paper Scissors Game</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            position: relative;
-        }
-        h1 {
-            margin-top: 50px;
-        }
-        #join-form {
-            margin-top: 20px;
-        }
-        #join-form input[type="text"] {
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        #join-form input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #reset-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        position: relative;
+      }
+      h1 {
+        margin-top: 50px;
+      }
+      #join-form {
+        margin-top: 20px;
+      }
+      #join-form input[type="text"] {
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      #join-form input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #reset-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 10px 20px;
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     </style>
-</head>
-<body>
-<h1>Welcome to Rock Paper Scissors Game!</h1>
-<button id="reset-button" onclick="resetGame()">Reset</button>
-<button id="join-form" onclick="joinGame()">Join</button>
+  </head>
+  <body>
+    <h1>Welcome to Rock Paper Scissors Game!</h1>
+    <button id="reset-button" onclick="resetGame()">Reset</button>
+    <button id="join-form" onclick="joinGame()">Join</button>
 
+    <script>
+      let playerData;
+      let err;
 
-
-<script>
-    function resetGame() {
+      function resetGame() {
         // Add logic here to reset the game state
-        alert("Game reset!");
-    }
-    function  joinGame(){
-       /* const url = "http://localhost:3222/game/join";
-        fetch(url)
-            .then(res =>
-                res.json()
-            )
-            .then(data => {
-                console.log(data)
-                if(data.error){
-                    //show error to player
-                    //......................
-                }
-                else{
-                    //go to waiting.html
-                    window.location.href = "waiting.html";
-                }
+        fetch("http://localhost:3222/game/reset")
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      }
 
-            }).catch(error => console.log(error))*/
+      function joinGame() {
+        fetch("http://localhost:3222/game/join")
+          .then((res) => {
+            if (res.status == 500) {
+              console.log("hello");
+              throw "game is full";
+            }
+            res.json();
+          })
+          .then((data) => {
+            console.log(data);
+            playerData = data;
+            //window.location.href = `http://localhost:3221/Waiting.html?player_id=${playerData.id}&player_number=${playerData.number}`;
+          })
+          .catch((error) => {
+            err = error;
+            console.log(err);
+          });
+      }
 
-        const url = "http://localhost:3222/game/join";
-        fetch(url)
-            .then(res => {
-                if (res.status === 500) {
-                    throw new Error("Internal Server Error");
-                }
-                return res.json();
-            })
-            .then(data => {
-                // Handle successful response
-                window.location.href = "waiting.html";
-                console.log(data);
-                // Redirect to waiting.html or perform other actions
-            })
-            .catch(error => {
-                // Handle errors, including 500 Internal Server Error
-                console.log("Tell Player that it is full.");
-                console.log(error);
-            });
-
-    }
-
-
-</script>
-</body>
+      
+    </script>
+  </body>
 </html>
