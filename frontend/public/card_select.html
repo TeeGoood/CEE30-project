@@ -8,48 +8,117 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin-top: 50px;
+            margin: 0;
             position: relative;
         }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            background-image: url('img/background.jpg');
+            background-repeat: no-repeat;
+            animation: slide 10s linear infinite;
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            min-height: 120vh;
+            background-color: rgba(255,255,255,0.5);
+            box-sizing: border-box;
+        }
+        @keyframes slide {
+            0% {
+            background-position: 0 0;
+            }
+            50% {
+                background-position: 30% 0; /* Move a little bit to the left */
+            }
+            100% {
+                background-position: 0 0; /* Slide back to original position */
+            }
+        }
+        @font-face {
+            font-family: 'Rocher';
+            src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
+        }
+        @font-palette-values --Green {
+            font-family: Rocher;
+            base-palette: 5;
+        }
+        @font-palette-values --LightGreen {
+            font-family: Rocher;
+            base-palette: 2;
+        }
+        @font-palette-values --Yellow {
+            font-family: Rocher;
+            base-palette: 11;
+        }
+        .header {
+            font-family: 'Rocher';
+            font-size: 100px;
+            font-palette: --Green;
+            margin-bottom: 50px;
+        }
         #cardDeck {
-            width: 200px;
-            height: 300px;
-            border: 2px solid #000;
-            border-radius: 10px;
+            width: 300px;
+            height: 460px;
+            border: 4px solid #000;
+            border-radius: 20px;
             padding: 20px;
             cursor: pointer;
             margin: auto;
-            background-image: url('card_back.png'); /* Default card deck image */
+            background-image: url('img/back.jpg'); /* Default card deck image */
             background-size: cover;
         }
+        #cardName {
+            margin-top: 50px;
+            font-size: 50px;
+            font-family: 'Rocher';
+            text-align: center;
+            font-palette: --Yellow;
+        }
         #cardDescription {
-            margin-top: 20px;
-            font-size: 18px;
+            margin-top: 50px;
+            font-size: 40px;
+            font-family: 'Rocher';
+            text-align: center;
+            font-palette: --LightGreen; 
         }
         .button-container {
-            margin-top: 20px;
+            margin-top: 50px;
         }
         .button {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 15px 30px;
             background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
-            margin-right: 10px;
+            margin-left: 30px;
+            margin-right: 20px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.2rem; 
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3
         }
         #cancelButton {
             position: absolute;
-            top: 10px;
-
-            right: 90px;
+            top: 20px;
+            right: 150px;
+            padding: 15px 30px;
             background-color: #6c757d;
             color: white;
             border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
+            border-radius: 10px;
             cursor: pointer;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.2rem; 
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
         #reset-button {
             position: absolute;
@@ -73,35 +142,64 @@
 </head>
 <body>
     <div class="container">
-        <h1>Card Selection</h1>
+        <h1 class="header"><br>Card Selection</h1>
         <button id="cancelButton" onclick="cancelSelection()">Cancel</button>
         <button id="reset-button" onclick="resetCard()">Reset</button>
+        <div id="cardDeck" onclick="drawCard()"></div>
+        <div id="cardName"></div>
+        <div id="cardDescription"></div>
+        <div class="button-container" id="buttonContainer" style="display: none;">
+            <button class="button" onclick="useCard()">Use</button>
+            <button class="button" onclick="discardCard()">Discard</button>
+        </div>
     </div>
-
-
-<div id="cardDeck" onclick="drawCard()"></div>
-<div id="cardDescription"></div>
-<div class="button-container" id="buttonContainer" style="display: none;">
-    <button class="button" onclick="useCard()">Use</button>
-    <button class="button" onclick="discardCard()">Discard</button>
-</div>
 
 <script>
     // Array of card descriptions
+    var cardName = [
+        "Paper Loss !",
+        "Hope Cutting Scissors",
+        "Rock Out !",
+        "Rock You !",
+        "Paper Cut !",
+        "Snipping Victory !",
+        "One More Time !",
+        "Even Odds",
+        "Make It or Break It",
+        "Escalating the Loss",
+        "Late Game",
+        "Ground Zero",
+        "Score Swap",
+        "Chaos !?"
+        // Add more card descriptions as needed
+    ];
     var cardDescriptions = [
-        "Ace of Spades: The highest card in the deck.",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14"
         // Add more card descriptions as needed
     ];
 
     function drawCard() {
-        // Change the card deck image
-        document.getElementById("cardDeck").style.backgroundImage = "url('img/ageheart.png')";
-
         // Randomly select a card description
-        var randomIndex = Math.floor(Math.random() * cardDescriptions.length);
+        var randomIndex = Math.floor(Math.random() * cardName.length);
+        var name = cardName[randomIndex];
         var description = cardDescriptions[randomIndex];
+        document.getElementById("cardDeck").style.backgroundImage = "url('img/" + (randomIndex + 1) + ".png')";
 
-        // Display the selected card description
+        // Display the selected card name and description
+        document.getElementById("cardName").innerText = name;
         document.getElementById("cardDescription").innerText = description;
 
         // Show the button container
