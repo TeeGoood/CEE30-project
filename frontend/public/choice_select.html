@@ -1,236 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rock Paper Scissors - Player's Choice</title>
-    <style>
-      body {
-        text-align: center;
-        margin: 0;
-        padding: 0;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock Paper Scissors - Player's Choice</title>
+  <style>
+    body {
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .container {
+      background-image: url("img/background.jpg");
+      background-repeat: no-repeat;
+      animation: slide 10s linear infinite;
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+      min-height: 120vh;
+      background-color: rgba(255, 255, 255, 0.5);
+      box-sizing: border-box;
+    }
+
+    @keyframes slide {
+      0% {
+        background-position: 0 0;
       }
-      h1 {
-        margin: 0;
+
+      50% {
+        background-position: 30% 0;
+        /* Move a little bit to the left */
       }
-      .container {
-        background-image: url("img/background.jpg");
-        background-repeat: no-repeat;
-        animation: slide 10s linear infinite;
-        background-size: cover;
-        background-position: center;
-        margin: 0;
-        padding: 0;
-        min-height: 120vh;
-        background-color: rgba(255, 255, 255, 0.5);
-        box-sizing: border-box;
+
+      100% {
+        background-position: 0 0;
+        /* Slide back to original position */
       }
-      @keyframes slide {
-        0% {
-          background-position: 0 0;
-        }
-        50% {
-          background-position: 30% 0; /* Move a little bit to the left */
-        }
-        100% {
-          background-position: 0 0; /* Slide back to original position */
-        }
+    }
+
+    @font-face {
+      font-family: "Rocher";
+      src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
+    }
+
+    @font-palette-values --Purple {
+      font-family: Rocher;
+      base-palette: 6;
+    }
+
+    @font-palette-values --Green {
+      font-family: Rocher;
+      base-palette: 7;
+    }
+
+    #title-text {
+      font-family: Rocher;
+      font-size: 70px;
+      font-palette: --Purple;
+    }
+
+    .buttons {
+      margin-top: 50px;
+    }
+
+    .rock {
+      margin-right: 50px;
+      font-size: 40px;
+      font-family: Rocher;
+      font-palette: --Green;
+    }
+
+    .paper {
+      margin-left: 25px;
+      margin-right: 25px;
+      font-size: 40px;
+      font-family: Rocher;
+      font-palette: --Green;
+    }
+
+    .scissors {
+      margin-left: 50px;
+      font-size: 40px;
+      font-family: Rocher;
+      font-palette: --Green;
+    }
+
+    .choice-button {
+      display: inline-block;
+      padding: 8px 16px;
+      font-size: 18px;
+      cursor: pointer;
+      margin: 0 10px;
+      border-radius: 5px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .choice-button:hover {
+      background-color: #2980b9;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 10px;
+      /* Space between buttons */
+      position: absolute;
+      top: 20px;
+      right: 10px;
+    }
+
+    #reset-button {
+      padding: 15px 30px;
+      background-color: #dc3545;
+      color: hsl(0, 0%, 100%);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: "Open Sans", sans-serif;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    #reset-button:hover {
+      color: #922317;
+      background-color: rgb(255, 223, 223);
+    }
+
+    #resume-button {
+      padding: 15px 30px;
+      background-color: #dc3545;
+      background-color: #66c02a;
+      /* Green for resume button */
+      color: hsl(0, 0%, 100%);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: "Open Sans", sans-serif;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      right:150px;
+    }
+
+    #resume-button:hover {
+      color: #4a861c;
+      background-color: rgb(231, 246, 209);
+    }
+
+    .image {
+      height: 200px;
+      width: 200px;
+    }
+
+    @media (max-width: 1024px) {
+      .image {
+        height: 180px;
+        width: 180px;
       }
-      @font-face {
-        font-family: "Rocher";
-        src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
-      }
-      @font-palette-values --Purple {
-        font-family: Rocher;
-        base-palette: 6;
-      }
-      @font-palette-values --Green {
-        font-family: Rocher;
-        base-palette: 7;
-      }
+
       #title-text {
-        font-family: Rocher;
-        font-size: 90px;
-        font-palette: --Purple;
+        font-size: 50px;
       }
-      .buttons {
-        margin-top: 50px;
-      }
+
       .rock {
-        margin-right: 50px;
-        font-size: 40px;
+        margin-right: 30px;
         font-family: Rocher;
         font-palette: --Green;
       }
+
       .paper {
-        margin-left: 25px;
-        margin-right: 25px;
-        font-size: 40px;
+        margin-left: 15px;
+        margin-right: 15px;
         font-family: Rocher;
         font-palette: --Green;
       }
+
       .scissors {
-        margin-left: 50px;
-        font-size: 40px;
+        margin-left: 30px;
         font-family: Rocher;
         font-palette: --Green;
       }
-      .choice-button {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 18px;
-        cursor: pointer;
-        margin: 0 10px;
-        border-radius: 5px;
-        background-color: #3498db;
-        color: #fff;
-        text-decoration: none;
-      }
-      .choice-button:hover {
-        background-color: #2980b9;
-      }
 
-      .button-container {
-        display: flex;
-        gap: 10px; /* Space between buttons */
-        position: absolute;
-        top: 20px;
-        right: 10px;
-      }
-
-      #reset-button,
-      #resume-button {
-        padding: 15px 30px;
-        background-color: #dc3545; /* Red for reset button */
-        color: hsl(0, 0%, 100%);
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-family: "Open Sans", sans-serif;
-        font-size: 1.2rem;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-      }
-
-      #reset-button:hover {
-        color: #922317;
-        background-color: rgb(255, 223, 223);
+      #reset-button {
+        font-size: 1.1rem;
+        padding: 12px 24px;
       }
 
       #resume-button {
-        background-color: #66c02a; /* Green for resume button */
-        display: none;
+        font-size: 1.1rem;
+        padding: 12px 24px;
       }
 
-      #resume-button:hover {
-        color: #4a861c;
-        background-color: rgb(231, 246, 209);
+    }
+
+    @media (max-width: 768px) {
+      #title-text {
+        font-size: 40px;
       }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="button-container">
-        <button id="resume-button" onclick="resumeGame()">Resume</button>
-        <button id="reset-button" onclick="resetGame()">Reset</button>
-      </div>
-      <h1 id="title-text"><br />Choose Your Move</h1>
-      <div class="buttons">
-        <button class="rock" type="button" onclick="selectChoice('rock')">
-          <img src="img/rock.png" alt="Rock" width="300" height="300" />
-          <p>Rock</p>
-        </button>
-        <button class="paper" type="button" onclick="selectChoice('paper')">
-          <img src="img/paper.png" alt="Paper" width="300" height="300" />
-          <p>Paper</p>
-        </button>
-        <button
-          class="scissors hover"
-          type="button"
-          onclick="selectChoice('scissors')"
-        >
-          <img src="img/scissors.png" alt="Scissors" width="300" height="300" />
-          <p>Scissors</p>
-        </button>
-      </div>
+
+      .rock {
+        margin-right: 0px;
+        font-family: Rocher;
+        font-palette: --Green;
+        font-size: 25px;
+      }
+
+      .paper {
+        margin-left: 5px;
+        margin-right: 5px;
+        font-family: Rocher;
+        font-palette: --Green;
+        font-size: 25px;
+      }
+
+      .scissors {
+        margin-left: 0px;
+        font-family: Rocher;
+        font-palette: --Green;
+        font-size: 25px;
+      }
+
+      #reset-button {
+        font-size: 0.9rem;
+        padding: 7px 14px;
+      }
+
+      #resume-button {
+        font-size: 0.9rem;
+        padding: 7px 14px;
+      }
+
+      .image {
+        width: 110px;
+        height: 110px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .image {
+        width: 90px;
+        height: 90px;
+      }
+
+      #reset-button {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+      }
+
+      #resume-button {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+      }
+
+      #title-text {
+        font-size: 35px;
+      }
+
+      .rock {
+        font-size: 20px;
+      }
+
+      .paper {
+        font-size: 20px;
+      }
+
+      .scissors {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="button-container">
+      <button id="resume-button" onclick="resumeGame()">Resume</button>
+      <button id="reset-button" onclick="resetGame()">Reset</button>
     </div>
+    <h1 id="title-text"><br />Choose Your Move</h1>
+    <div class="buttons">
+      <button class="rock" type="button" onclick="selectChoice('rock')">
+        <img src="img/rock.png" class="image" alt="Rock" />
+        <p>Rock</p>
+      </button>
+      <button class="paper" type="button" onclick="selectChoice('paper')">
+        <img src="img/paper.png" class="image" alt="Paper" />
+        <p>Paper</p>
+      </button>
+      <button class="scissors hover" type="button" onclick="selectChoice('scissors')">
+        <img src="img/scissors.png" class="image" alt="Scissors" />
+        <p>Scissors</p>
+      </button>
+    </div>
+  </div>
 
-    <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const player_id = urlParams.get("player_id");
-      const player_number = urlParams.get("player_number");
-      /* const player_choice = urlParams.get("choice"); */
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const player_id = urlParams.get("player_id");
+    const player_number = urlParams.get("player_number");
+    /* const player_choice = urlParams.get("choice"); */
 
-      setInterval(() => {
-        function selectChoice(choice) {
-          alert("You selected: " + choice);
-          fetch(`http://localhost:3222/game`)
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-              if (
-                data.gameState == "break" &&
-                data.result == "player" + player_id
-              ) {
-                alert("You Win !");
-                document.getElementById("resume-button").style.display = "";
-                /* return; */
-              } else if (
-                data.gameState == "break" &&
-                data.result == "draw"
-              ) {
-                alert("Draw !");
-                document.getElementById("resume-button").style.display = "";
-                /* return; */
-              } else if (data.gameState == "break" && data.result == "draw") {
-                alert("You Lose !");
-                document.getElementById("resume-button").style.display = "";
-                /* return; */
-              }
+    setInterval(() => {
+      function selectChoice(choice) {
+        alert("You selected: " + choice);
+        fetch(`http://localhost:3222/game`)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (
+              data.gameState == "break" &&
+              data.result == "player" + player_id
+            ) {
+              alert("You Win !");
+              document.getElementById("resume-button").style.display = "";
+              /* return; */
+            } else if (
+              data.gameState == "break" &&
+              data.result == "draw"
+            ) {
+              alert("Draw !");
+              document.getElementById("resume-button").style.display = "";
+              /* return; */
+            } else if (data.gameState == "break" && data.result == "draw") {
+              alert("You Lose !");
+              document.getElementById("resume-button").style.display = "";
+              /* return; */
+            }
 
-              return fetch("http://localhost:3222/choice/submit?player_id=${player_id}&player_choice=${choice}");
-            });
-        }
-      }, 1000);
+            return fetch("http://localhost:3222/choice/submit?player_id=${player_id}&player_choice=${choice}");
+          });
+      }
+    }, 1000);
 
-      function resetGame() {
-        alert("Resetting game...");
-        fetch(`http://localhost:3222/game/reset`)
+    function resetGame() {
+      alert("Resetting game...");
+      fetch(`http://localhost:3222/game/reset`)
         .then(res => {
-            return res.json();
+          return res.json();
         })
         .then(data => {
-            window.location.href = `http://localhost:3221/index.html`;
+          window.location.href = `http://localhost:3221/index.html`;
         })
     }
 
-      function resumeGame() {
-        alert("Resuming game...");
-        fetch(`http://localhost:3222/game/resume`)
-          .then((res) => res.json())
-          .then((data) => {
+    function resumeGame() {
+      alert("Resuming game...");
+      fetch(`http://localhost:3222/game/resume`)
+        .then((res) => res.json())
+        .then((data) => {
 
-            if (player_number == 1 && data.round % 2 == 0) {
-              window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
-              return;
-            }
+          if (player_number == 1 && data.round % 2 == 0) {
+            window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
+            return;
+          }
 
-            if (player_number == 1 && data.round % 2 != 0) {
-              window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
-              return;
-            }
+          if (player_number == 1 && data.round % 2 != 0) {
+            window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
+            return;
+          }
 
-            if (player_number == 2 && data.round % 2 != 0) {
-              window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
-              return;
-            }
+          if (player_number == 2 && data.round % 2 != 0) {
+            window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
+            return;
+          }
 
-            if (player_number == 2 && data.round % 2 == 0) {
-              window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
-              return;
-            }
-          });
-      }
-    </script>
-  </body>
+          if (player_number == 2 && data.round % 2 == 0) {
+            window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
+            return;
+          }
+        });
+    }
+  </script>
+</body>
+
 </html>

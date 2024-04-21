@@ -1,94 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rock Paper Scissors Game</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        position: relative;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock Paper Scissors Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      position: relative;
+      margin: 0;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .container {
+      background-image: url("img/background.jpg");
+      animation: slide 10s linear infinite;
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+      /* width: 100%;
+            height: 100%; */
+      min-height: 120vh;
+      background-color: rgba(255, 255, 255, 0.5);
+      box-sizing: border-box;
+    }
+
+    @keyframes slide {
+      0% {
+        background-position: 0 0;
       }
-      h1 {
-        margin-top: 50px;
+
+      50% {
+        background-position: 40% 0;
+        /* Move a little bit to the left */
+      }
+
+      100% {
+        background-position: 0 0;
+        /* Slide back to original position */
+      }
+    }
+
+    @font-face {
+      font-family: "Rocher";
+      src: url(https://assets.codepen.io/9632/RocherColorGX.woff2);
+    }
+
+    @font-palette-values --Yellow {
+      font-family: Rocher;
+      base-palette: 11;
+    }
+
+    .header {
+      font-size: 100px;
+      font-family: "Rocher";
+      font-palette: --Yellow;
+    }
+
+    #join-form {
+      margin-top: 20px;
+    }
+
+    /* #join-form input[type="text"] {
+      padding: 10px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #join-form input[type="submit"] {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    } */
+
+    #join-form {
+      padding: 20px 40px;
+      font-family: "Open Sans", sans-serif;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 50px;
+      border-radius: 10px;
+      background-color: #3498db;
+      color: #fff;
+    }
+    #join-form:hover {
+      background-color: #2980b9;
+    }
+
+    #reset-button {
+      position: absolute;
+      top: 20px;
+      right: 10px;
+      padding: 15px 30px;
+      font-family: "Open Sans", sans-serif;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #reset-button:hover {
+      background-color: #c0392b;
+    }
+    
+    @media (max-width: 1024px) {
+      .header {
+        font-size: 80px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        font-size: 60px;
+      }
+
+      #reset-button {
+        font-size: 18px;
+        padding: 8px 16px;
+      }
+
+      #join-form {
+        font-size: 22px;
+        padding: 15px 30px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .header {
+        font-size: 48px;
+      }
+
+      #reset-button {
+        font-size: 12px;
+        padding: 7px 15px;
+        border-radius: 7px;
       }
       #join-form {
-        margin-top: 20px;
-      }
-      #join-form input[type="text"] {
-        padding: 10px;
-        margin-right: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-      #join-form input[type="submit"] {
+        font-size: 18px;
         padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
       }
-      #reset-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        padding: 10px 20px;
-        background-color: #dc3545;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Welcome to Rock Paper Scissors Game!</h1>
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="header">
+      <br />Welcome to<br />Rock Paper Scissors<br />Game !
+    </h1>
     <button id="reset-button" onclick="resetGame()">Reset</button>
     <button id="join-form" onclick="joinGame()">Join</button>
+  </div>
 
-    <script>
-      let playerData;
-      let err;
-      const backendURL = "http://localhost:3222/";
+  <script>
+    let playerData;
+    let err;
+    const backendURL = "http://localhost:3222/";
 
-      function resetGame() {
-        // Add logic here to reset the game state
-        alert("Resetting game...");
-        fetch(backendURL + 'game/reset')
+    function resetGame() {
+      // Add logic here to reset the game state
+      alert("Resetting game...");
+      fetch(backendURL + 'game/reset')
         .then(res => {
-            if (res.status == 500) {
-              throw "game is full";
-            }
-            return res.json();
+          if (res.status == 500) {
+            throw "game is full";
+          }
+          return res.json();
         })
         .then(data => {
-            console.log(data);
+          console.log(data);
         })
     }
 
-      function joinGame() {
-        fetch(backendURL + "game/join")
-          .then((res) => {
-            if (res.status == 500) {
-              throw "game is full";
-            }
-            console.log(res);
-            return res.json();
-          })
-          .then((data) => {
-            console.log(data);
-            playerData = data;
-            window.location.href = `http://localhost:3221/waiting.html?player_id=${playerData.id}&player_number=${playerData.number}`;
-          })
-          .catch((error) => {
-            err = error;
-            console.log(err);
-          });
-      }
+    function joinGame() {
+      fetch(backendURL + "game/join")
+        .then((res) => {
+          if (res.status == 500) {
+            throw "game is full";
+          }
+          console.log(res);
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          playerData = data;
+          window.location.href = `http://localhost:3221/waiting.html?player_id=${playerData.id}&player_number=${playerData.number}`;
+        })
+        .catch((error) => {
+          err = error;
+          console.log(err);
+        });
+    }
 
-      
-    </script>
-  </body>
+
+  </script>
+</body>
+
 </html>
