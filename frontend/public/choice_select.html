@@ -285,6 +285,10 @@
         justify-content: center;
       }
 
+      #Score{
+        font-family: Rocher;
+        font-palette: --Gray;
+      }
     </style>
   </head>
 
@@ -312,6 +316,9 @@
           <p>Scissors</p>
         </button>
       </div>
+      <div>
+        <h2 id="Score">Your Score : 0</h2>
+      </div>
       <div id="resume-container">
         <button id="resume-button" onclick="resumeGame()">Resume</button>
       </div>
@@ -322,12 +329,51 @@
       const player_id = urlParams.get("player_id");
       const player_number = urlParams.get("player_number");
       let tmp = 0;
+      const scoreElement = document.getElementById('Score');
+      let score;
+
+      window.onload = () => {
+        fetch(`http://localhost:3222/game`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log('hello', data)
+          if (data.round%2 == 0 && player_number == 1) {
+            try {
+              alert("Another player uses " + data.player2.card.name);
+            } catch {
+              
+            }
+            return;
+          }
+
+          if (data.round%2 != 0 && player_number == 2) {
+            try {
+              alert("Another player uses " + data.player1.card.name);
+            } catch {
+
+            }
+            return;
+          }
+        })
+      }
+      //document.addEventListener('DOMContentLoaded', );
+
 
       setInterval(() => {
         fetch(`http://localhost:3222/game`)
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
+
+            if (player_number === '1') {
+              score = data.player1.score;
+              console.log("No1");
+            } else if (player_number === '2') {
+              score = data.player2.score;
+              console.log("No2");
+            }
+            scoreElement.textContent = "Your Score : " + score;
+
             if (data.gameState == "break" && tmp === 0) {
               console.log("Break !");
               tmp = 1;
