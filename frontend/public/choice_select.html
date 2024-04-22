@@ -59,6 +59,11 @@
         base-palette: 7;
       }
 
+      @font-palette-values --yourscore {
+        font-family: Rocher;
+        base-palette: 5;
+      }
+
       #title-text {
         font-family: Rocher;
         font-size: 70px;
@@ -162,6 +167,67 @@
         width: 200px;
       }
 
+      .score-box {
+        width: 200px;
+        height: 150px;
+        background-color: rgb(156, 29, 29);
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+
+      .text-score {
+        margin-top: 10px;
+        font-size: 28px;
+        font-family: Rocher;
+        font-palette: --yourscore;
+      }
+
+      .score-cover {
+        position: absolute;
+        top: 62%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 5px 60px;
+        border-radius: 10px;
+      }
+
+      #Score{
+        font-family: Rocher;
+        font-palette: --Gray;
+        font-size: 50px;
+        text-align: center;
+      }
+      
+      @media (max-width: 1286px) {
+        .score-box {
+          width: 130px;
+          height: 97.5px;
+          border: 2px solid #ccc;
+          top: 20px;
+          left: 20px;
+        }
+
+        .text-score {
+          margin-top: 8px;
+          font-size: 17px;
+        }
+
+        .score-cover {
+          position: absolute;
+          top: 62%;
+          left: 50%;
+          padding: 5px 30px;
+        }
+
+        #Score{
+          font-size: 32px;
+        }
+      }
+
       @media (max-width: 1024px) {
         .image {
           height: 180px;
@@ -199,6 +265,30 @@
         #resume-button {
           font-size: 1.1rem;
           padding: 12px 24px;
+        }
+
+        .score-box {
+          width: 100px;
+          height: 75px;
+          border: 2px solid #ccc;
+          top: 20px;
+          left: 20px;
+        }
+
+        .text-score {
+          margin-top: 7px;
+          font-size: 14px;
+        }
+
+        .score-cover {
+          position: absolute;
+          top: 62%;
+          left: 50%;
+          padding: 5px 30px;
+        }
+
+        #Score{
+          font-size: 20px;
         }
       }
 
@@ -244,6 +334,32 @@
           width: 110px;
           height: 110px;
         }
+        .score-box {
+          width: 170px;
+          height: 40px;
+          border: 2px solid #ccc;
+          top: 10px;
+          left: 10px;
+          display:flex;
+          align-items: center;
+        }
+
+        .text-score {
+          margin: 4px;
+          margin-left: 10px;
+          font-size: 14px;
+        }
+
+        .score-cover {
+          position: absolute;
+          top: 50%;
+          left: 75%;
+          padding: 5px 25px;
+        }
+
+        #Score{
+          font-size: 17px;
+        }
       }
 
       @media (max-width: 430px) {
@@ -278,6 +394,32 @@
           font-size: 20px;
         }
 
+        .score-box {
+          width: 160px;
+          height: 30px;
+          border: 2px solid #ccc;
+          top: 10px;
+          left: 10px;
+          display:flex;
+          align-items: center;
+        }
+
+        .text-score {
+          margin: 4px;
+          margin-left: 10px;
+          font-size: 14px;
+        }
+
+        .score-cover {
+          position: absolute;
+          top: 50%;
+          left: 80%;
+          padding: 1px 20px;
+        }
+
+        #Score{
+          font-size: 16px;
+        }
       }
 
       #resume-container{
@@ -285,10 +427,6 @@
         justify-content: center;
       }
 
-      #Score{
-        font-family: Rocher;
-        font-palette: --Gray;
-      }
     </style>
   </head>
 
@@ -296,6 +434,12 @@
     <div class="container">
       <div class="button-container">
         <button id="reset-button" onclick="resetGame()">Reset</button>
+      </div>
+      <div class="score-box">
+        <div class="text-score">Your Score</div>
+        <div class="score-cover">
+          <div id="Score">0</div>
+        </div>
       </div>
       <h1 id="title-text"><br />Choose Your Move</h1>
       <div class="choice-container">
@@ -315,9 +459,6 @@
           <img src="img/scissors.png" class="image" alt="Scissors" />
           <p>Scissors</p>
         </button>
-      </div>
-      <div>
-        <h2 id="Score">Your Score : 0</h2>
       </div>
       <div id="resume-container">
         <button id="resume-button" onclick="resumeGame()">Resume</button>
@@ -372,7 +513,7 @@
               score = data.player2.score;
               console.log("No2");
             }
-            scoreElement.textContent = "Your Score : " + score;
+            scoreElement.textContent = score;
 
             if (data.gameState == "break" && tmp === 0) {
               console.log("Break !");
