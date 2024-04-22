@@ -331,19 +331,19 @@
             if (data.gameState == "break" && tmp === 0) {
               console.log("Break !");
               tmp = 1;
-              if (data.result == "player" + player_id) {
+              if (data.result == "player" + player_number) {
                 alert("You Win !");
               } else if (data.result == "draw") {
                 alert("Draw !");
               } else if (
-                data.result != "player" + player_id &&
+                data.result != "player" + player_number &&
                 data.result != null
               ) {
                 alert("You Lose !");
               }
             } else if (data.gameState == "game_end") {
               alert("Game Over");
-              window.location.href = `http://localhost:3221/end_game.html?player_id=${player_id}&player_number=${player_number}&winner=${data.player1 >= 3 ? "player1" : "player2"}`;
+              window.location.href = `http://localhost:3221/end_game.html?player_id=${player_id}&player_number=${player_number}&winner=${data.player1.score >= 3 ? "player1" : "player2"}`;
               return;
             }
           })

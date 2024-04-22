@@ -166,9 +166,8 @@
     <div class="container">
       <h1 id="game-over-message"><br />Game Over !</h1>
       <div id="winner"></div>
-      <a id="play-again-button" href="waiting.html" onclick="resetGame()"
-        >Play Again</a
-      >
+      <button id="play-again-button" onclick="resetGame()"
+        >Play Again</button>
     </div>
 
     <script>
@@ -181,19 +180,29 @@
       let text;
       let color;
 
-      if (/* data.result == "player" + player_id */ (winner == 'player1' && player_number == 1) || (winner == 'player2' && player_number == 2)) {
+      if (
+        /* data.result == "player" + player_id */ (winner == "player1" &&
+          player_number == 1) ||
+        (winner == "player2" && player_number == 2)
+      ) {
         text = "Victory !";
-        color = '--Green';
-      } else if (/* data.result != "player" + player_id && data.result != null */ (winner == 'player1' && player_number == 2) || (winner == 'player2' && player_number == 1)) {
-        text = 'Lose !';
-        color = '--Red';
+        color = "--Green";
+      } else if (
+        /* data.result != "player" + player_id && data.result != null */ (winner ==
+          "player1" &&
+          player_number == 2) ||
+        (winner == "player2" && player_number == 1)
+      ) {
+        text = "Lose !";
+        color = "--Red";
       } else {
-        text = 'Invalid winner';
+        text = "Invalid winner";
       }
 
       document.getElementById("winner").innerText = text;
-      document.getElementById("winner").style.setProperty('font-palette', color);
-
+      document
+        .getElementById("winner")
+        .style.setProperty("font-palette", color);
 
       function resetGame() {
         alert("Resetting game...");
@@ -205,7 +214,6 @@
             window.location.href = `http://localhost:3221/index.html`;
           });
       }
-      
     </script>
   </body>
 </html>
