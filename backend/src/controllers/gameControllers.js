@@ -41,14 +41,14 @@ export const joinGame = async (req, res) => {
 export const resetGame = async (req, res) => {
   try {
     const gameObject = await getGameObject();
-    const player1 = gameObject.getPlayerByNumber(1)
+    const player1 = gameObject.getPlayerByNumber(1);
     const player2 = gameObject.getPlayerByNumber(2);
 
-    if(player1){
+    if (player1) {
       await PlayerModel.findByIdAndDelete(player1.getId());
     }
 
-    if(player2){
+    if (player2) {
       await PlayerModel.findByIdAndDelete(player2.getId());
     }
 
@@ -64,7 +64,7 @@ export const resetGame = async (req, res) => {
 export const resumeGame = async (req, res) => {
   try {
     const gameObject = await getGameObject();
-    if(gameObject.getGameStates() != "card_select"){
+    if (gameObject.getGameStates() != "card_select") {
       gameObject.resumeGame();
     }
     await saveGame(gameObject);

@@ -19,7 +19,8 @@ export class Game {
     this.#result = gameStatus.result || null;
     this.#round = gameStatus.round || 1;
     this.#cardDec = (
-      gameStatus.cardDec || [
+      gameStatus.cardDec ||
+      [
         "Late_Game",
         "Paper_Loss",
         "OneMoreTime",
@@ -29,7 +30,8 @@ export class Game {
         "Even_Odds",
         "Ground_Zero",
         "Score_Swap",
-      ]
+        "Chaos",
+      ].sort(() => Math.random() - 0.5)
     ).map(
       (card) =>
         new Card({
@@ -55,13 +57,16 @@ export class Game {
       "Even_Odds",
       "Ground_Zero",
       "Score_Swap",
-    ].map(
-      (card) =>
-        new Card({
-          game: this,
-          name: card,
-        })
-    );
+      "Chaos",
+    ]
+      .sort(() => Math.random() - 0.5)
+      .map(
+        (card) =>
+          new Card({
+            game: this,
+            name: card,
+          })
+      );
   }
 
   getGameStates() {
