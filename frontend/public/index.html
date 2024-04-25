@@ -170,7 +170,7 @@
   <script>
     let playerData;
     let err;
-    const backendURL = "http://localhost:3222/";
+    const backendURL = "http://52.87.31.6:3222/";
 
     function resetGame() {
       // Add logic here to reset the game state
@@ -199,7 +199,7 @@
         .then((data) => {
           console.log(data);
           playerData = data;
-          window.location.href = `http://localhost:3221/waiting.html?player_id=${playerData.id}&player_number=${playerData.number}`;
+          window.location.href = `http://52.87.31.6:3221/waiting.html?player_id=${playerData.id}&player_number=${playerData.number}`;
         })
         .catch((error) => {
           err = error;

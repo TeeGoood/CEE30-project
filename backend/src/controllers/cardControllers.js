@@ -25,7 +25,7 @@ export const drawCard = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "cannot draw card" });
+    res.status(500).json({ error: error });
   }
 };
 
@@ -35,7 +35,7 @@ export const submitCard = async (req, res) => {
   // res: { gameData }
 
   const player_id = req.query.player_id;
-  const isUse = req.query.isUse == "true";
+  const isUse = req.query.isUse.toLowerCase() == "true";
 
   try {
     const gameObject = await getGameObject();
@@ -44,6 +44,6 @@ export const submitCard = async (req, res) => {
     res.json(gameObject.getShowStates());
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "cannot draw card" });
+    res.status(500).json({ error: error });
   }
 };

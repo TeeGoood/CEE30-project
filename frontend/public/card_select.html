@@ -303,13 +303,14 @@
       const player_id = urlParams.get("player_id");
       const player_number = urlParams.get("player_number");
 
+
       setInterval(() => {
-        fetch(`http://localhost:3222/game`)
+        fetch(`http://52.87.31.6:3222/game`)
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
             if (data.gameState == "choice_select") {
-              window.location.href = `http://localhost:3221/choice_select.html?player_id=${player_id}&player_number=${player_number}`;
+              window.location.href = `http://52.87.31.6:3221/choice_select.html?player_id=${player_id}&player_number=${player_number}`;
               return;
             }
             return;
@@ -318,7 +319,7 @@
 
       function drawCard() {        
         fetch(
-          `http://localhost:3222/card/draw?player_id=${player_id}&isDraw=true`
+          `http://52.87.31.6:3222/card/draw?player_id=${player_id}&isDraw=true`
         )
           .then((res) => {
             return res.json();
@@ -341,7 +342,7 @@
         alert("Card used!");
         resetCard();
         fetch(
-          `http://localhost:3222/card/submit?player_id=${player_id}&isUse=true`
+          `http://52.87.31.6:3222/card/submit?player_id=${player_id}&isUse=true`
         )
           .then((res) => {
             return res.json();
@@ -357,7 +358,7 @@
         alert("Card discarded!");
         resetCard();
         fetch(
-          `http://localhost:3222/card/submit?player_id=${player_id}&isUse=false`
+          `http://52.87.31.6:3222/card/submit?player_id=${player_id}&isUse=false`
         )
           .then((res) => {
             return res.json();
@@ -379,12 +380,12 @@
 
       function resetGame() {
         alert("Resetting game...");
-        fetch(`http://localhost:3222/game/reset`)
+        fetch(`http://52.87.31.6:3222/game/reset`)
           .then((res) => {
             return res.json();
           })
           .then((data) => {
-            window.location.href = `http://localhost:3221/index.html`;
+            window.location.href = `http://52.87.31.6:3221/index.html`;
           });
       }
 
@@ -392,7 +393,7 @@
         /*Redirect to choice_select.html*/
 
         fetch(
-          `http://localhost:3222/card/draw?player_id=${player_id}&isDraw=false`
+          `http://52.87.31.6:3222/card/draw?player_id=${player_id}&isDraw=false`
         )
           .then((res) => {
             return res.json();

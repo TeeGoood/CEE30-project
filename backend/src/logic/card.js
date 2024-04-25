@@ -18,7 +18,7 @@ export class Card {
     }
 
     if (!(data.name in cardsEnum)) {
-      throw "invalid card name";
+      throw `${data.name} invalid card name`;
     }
 
     this.#name = data.name;

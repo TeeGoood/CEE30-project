@@ -2,6 +2,26 @@ import { Card } from "./card.js";
 import { gameStatesEnum, resultsEnum } from "./enum.js";
 import { Player } from "./player.js";
 
+/* 
+"Escalating_The_Loss", 
+"Rock_You",
+"Makeit_Or_Breakit",
+"Paper_Cut"
+"OneMoreTime"
+*/
+/* 
+,*/
+/*
+*/
+const dec = [
+  "Chaos", 
+  "Ground_Zero",
+  "Even_Odds",
+  "Score_Swap",
+  "Paper_Loss",
+  "Late_Game",
+]
+
 export class Game {
   #gameState;
   #player1;
@@ -20,18 +40,7 @@ export class Game {
     this.#round = gameStatus.round || 1;
     this.#cardDec = (
       gameStatus.cardDec ||
-      [
-        "Late_Game",
-        "Paper_Loss",
-        "OneMoreTime",
-        "Makeit_Or_Breakit",
-        "Rock_You",
-        "Escalating_The_Loss",
-        "Even_Odds",
-        "Ground_Zero",
-        "Score_Swap",
-        "Chaos",
-      ].sort(() => Math.random() - 0.5)
+      dec.sort(() => Math.random() - 0.5)
     ).map(
       (card) =>
         new Card({
@@ -47,18 +56,7 @@ export class Game {
     this.#player2 = null;
     this.#result = null;
     this.#round = 1;
-    this.#cardDec = [
-      "Late_Game",
-      "Paper_Loss",
-      "OneMoreTime",
-      "Makeit_Or_Breakit",
-      "Rock_You",
-      "Escalating_The_Loss",
-      "Even_Odds",
-      "Ground_Zero",
-      "Score_Swap",
-      "Chaos",
-    ]
+    this.#cardDec = dec
       .sort(() => Math.random() - 0.5)
       .map(
         (card) =>

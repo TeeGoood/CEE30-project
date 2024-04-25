@@ -9,7 +9,7 @@ export const getGameData = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      error: "cannot get game data",
+      error: /* "cannot get game data" */ error ,
     });
   }
 };

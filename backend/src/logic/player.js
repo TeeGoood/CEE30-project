@@ -28,7 +28,7 @@ export class Player {
     this.#id = data.id;
     this.#number = data.number || number;
     this.#score = data.score || 0;
-    this.#quota = data.quota || 2;
+    this.#quota = data.quota || 5;
     this.#choice = data.choice || null;
     this.#game = data.game;
     this.#card = data.card

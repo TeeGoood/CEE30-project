@@ -169,21 +169,21 @@
 
     function resetGame() {
       alert("Resetting game...");
-      fetch(`http://localhost:3222/game/reset`)
+      fetch(`http://52.87.31.6:3222/game/reset`)
         .then(res => {
           return res.json();
         })
         .then(data => {
-          window.location.href = `http://localhost:3221/index.html`;
+          window.location.href = `http://52.87.31.6:3221/index.html`;
         })
     }
 
     setInterval(() => {
-      fetch(`http://localhost:3222/game`)
+      fetch(`http://52.87.31.6:3222/game`)
         .then((res) => res.json())
         .then((data) => {
           if (data.gameState == "choice_select") {
-            window.location.href = `http://localhost:3221/choice_select.html?player_id=${player_id}&player_number=${player_number}`;
+            window.location.href = `http://52.87.31.6:3221/choice_select.html?player_id=${player_id}&player_number=${player_number}`;
             return;
           }
           return;

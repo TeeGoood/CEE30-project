@@ -72,6 +72,9 @@
 
       .choice-container {
         margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
       }
 
       .rock {
@@ -427,6 +430,10 @@
         justify-content: center;
       }
 
+      #scissors-button, #rock-button, #paper-button{
+        display: none;
+      } 
+
     </style>
   </head>
 
@@ -443,18 +450,19 @@
       </div>
       <h1 id="title-text"><br />Choose Your Move</h1>
       <div class="choice-container">
-        <button class="rock" type="button" onclick="selectChoice('rock')">
-          <img src="img/rock.png" class="image" alt="Rock" />
+        <button class="rock" type="button" onclick="selectChoice('rock')" id="rock-button">
+          <img src="img/rock.png"  class="image" alt="Rock" />
           <p>Rock</p>
         </button>
-        <button class="paper" type="button" onclick="selectChoice('paper')">
-          <img src="img/paper.png" class="image" alt="Paper" />
+        <button class="paper" type="button" onclick="selectChoice('paper')" id="paper-button">
+          <img src="img/paper.png"  class="image" alt="Paper" />
           <p>Paper</p>
         </button>
         <button
           class="scissors hover"
           type="button"
           onclick="selectChoice('scissors')"
+          id="scissors-button"
         >
           <img src="img/scissors.png" class="image" alt="Scissors" />
           <p>Scissors</p>
@@ -474,10 +482,19 @@
       let score;
 
       window.onload = () => {
-        fetch(`http://localhost:3222/game`)
+        fetch(`http://52.87.31.6:3222/game`)
         .then((res) => res.json())
         .then((data) => {
-          console.log('hello', data)
+          //console.log('hello', data)
+          if(player_number == '1'){
+            data.player1.availableChoices.forEach(choice => document.getElementById(`${choice}-button`).style.display = "block");
+            //console.log('hey')
+          }
+          if(player_number == '2'){
+            data.player2.availableChoices.forEach(choice => document.getElementById(`${choice}-button`).style.display = "block");   
+            //console.log('hey')         
+          }
+
           if (data.round%2 == 0 && player_number == 1) {
             try {
               alert("Another player uses " + data.player2.card.name);
@@ -499,9 +516,13 @@
       }
       //document.addEventListener('DOMContentLoaded', );
 
+      let interval;
+      function stopEnding(){
+        clearInterval(interval)
+      }
 
-      setInterval(() => {
-        fetch(`http://localhost:3222/game`)
+      interval = setInterval(() => {
+        fetch(`http://52.87.31.6:3222/game`)
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
@@ -529,11 +550,31 @@
                 alert("You Lose !");
               }
             } else if (data.gameState == "game_end") {
+              stopEnding();
               alert("Game Over");
-              window.location.href = `http://localhost:3221/end_game.html?player_id=${player_id}&player_number=${player_number}&winner=${data.player1.score >= 3 ? "player1" : "player2"}`;
+              window.location.href = `http://52.87.31.6:3221/end_game.html?player_id=${player_id}&player_number=${player_number}&winner=${data.player1.score >= 3 ? "player1" : "player2"}`;
               return;
-            }
-          })
+            } else if (data.gameState == "card_select") {
+              if (player_number == 1 && data.round % 2 == 0) {
+                window.location.href = `http://52.87.31.6:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
+                return;
+              }
+
+              if (player_number == 1 && data.round % 2 != 0) {
+                window.location.href = `http://52.87.31.6:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
+                return;
+              }
+
+              if (player_number == 2 && data.round % 2 != 0) {
+                window.location.href = `http://52.87.31.6:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
+                return;
+              }
+
+              if (player_number == 2 && data.round % 2 == 0) {
+                window.location.href = `http://52.87.31.6:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
+                return;
+              }
+          }})
           .catch((error) => {
             console.error("Error fetching data:", error);
           });
@@ -546,7 +587,7 @@
         document.getElementsByClassName("choice-container")[0].style.display = "none";
         console.log("choice-container", document.getElementsByClassName("choice-container")[0].style);
         fetch(
-          `http://localhost:3222/choice/submit?player_id=${player_id}&choice=${choice}`
+          `http://52.87.31.6:3222/choice/submit?player_id=${player_id}&choice=${choice}`
         )
           .then((res) => res.json())
           .then((data) => {
@@ -557,17 +598,17 @@
 
       function resetGame() {
         alert("Resetting game...");
-        fetch(`http://localhost:3222/game/reset`)
+        fetch(`http://52.87.31.6:3222/game/reset`)
           .then((res) => {
             return res.json();
           })
           .then((data) => {
-            window.location.href = `http://localhost:3221/index.html`;
+            window.location.href = `http://52.87.31.6:3221/index.html`;
           });
       }
 
       function resumeGame() {
-        fetch(`http://localhost:3222/game/resume`)
+        fetch(`http://52.87.31.6:3222/game/resume`)
           .then((res) => res.json())
           .then((data) => {
             if(data.error){
@@ -578,22 +619,22 @@
             alert('Resume game...');
 
             if (player_number == 1 && data.round % 2 == 0) {
-              window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
+              window.location.href = `http://52.87.31.6:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
               return;
             }
 
             if (player_number == 1 && data.round % 2 != 0) {
-              window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
+              window.location.href = `http://52.87.31.6:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
               return;
             }
 
             if (player_number == 2 && data.round % 2 != 0) {
-              window.location.href = `http://localhost:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
+              window.location.href = `http://52.87.31.6:3221/waiting_card_select.html?player_id=${player_id}&player_number=${player_number}`;
               return;
             }
 
             if (player_number == 2 && data.round % 2 == 0) {
-              window.location.href = `http://localhost:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
+              window.location.href = `http://52.87.31.6:3221/card_select.html?player_id=${player_id}&player_number=${player_number}`;
               return;
             }
           });
